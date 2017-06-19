@@ -20,11 +20,11 @@ namespace AutomatorPrg.Implementations
 
             try
             {
-                using (var wResponse = wRequest.GetResponse())
+                using (var wResponse = (FtpWebResponse)wRequest.GetResponse())
                 {
                     if (wResponse.ContentLength != 0)
                     {
-                        //wResponse
+                        //wResponse.LastModified;
                     }
                 }
             }

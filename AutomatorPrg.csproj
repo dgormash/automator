@@ -60,23 +60,31 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Abstractions\FilesList.cs" />
     <Compile Include="CheckStarter.cs" />
     <Compile Include="ConsoleMessage.cs" />
     <Compile Include="ERemover.cs" />
     <Compile Include="FileAppender.cs" />
     <Compile Include="FLister.cs" />
+    <Compile Include="FtpFileManager.cs" />
     <Compile Include="FtpManager.cs" />
+    <Compile Include="ILoger.cs" />
     <Compile Include="Implementations\SoftUpdateChecker.cs" />
     <Compile Include="Interfaces\ISoftUpdate.cs" />
     <Compile Include="Interfaces\ISoftUpdateCheck.cs" />
+    <Compile Include="ISoftUpdate.cs" />
+    <Compile Include="ISoftUpdateCheck.cs" />
     <Compile Include="LogWriter.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ReportWriter.cs" />
     <Compile Include="SoftUpdate.cs" />
+    <Compile Include="SoftUpdateChecker.cs" />
+    <Compile Include="PackedVuFiles.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="ClassDiagram1.cd" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
@@ -90,6 +98,7 @@
       <Install>true</Install>
     </BootstrapperPackage>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PreBuildEvent>
