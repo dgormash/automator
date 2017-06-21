@@ -60,8 +60,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Abstractions\FilesList.cs" />
     <Compile Include="CheckStarter.cs" />
+    <Compile Include="Client.cs" />
     <Compile Include="ConsoleMessage.cs" />
     <Compile Include="ERemover.cs" />
     <Compile Include="FileAppender.cs" />
@@ -69,7 +69,25 @@
     <Compile Include="FtpFileManager.cs" />
     <Compile Include="FtpManager.cs" />
     <Compile Include="ILoger.cs" />
+    <Compile Include="Implementations\ArchiveFinder.cs" />
+    <Compile Include="Implementations\ArchiveFinderCreator.cs" />
+    <Compile Include="Implementations\CommonChecker.cs" />
+    <Compile Include="Implementations\CommonCheckerCreator.cs" />
+    <Compile Include="Implementations\ErrorFinder.cs" />
+    <Compile Include="Implementations\ErrorRemover.cs" />
+    <Compile Include="Implementations\ErrorRemoverCreator.cs" />
+    <Compile Include="Implementations\ListReturner.cs" />
+    <Compile Include="Implementations\ErrorFinderCreator.cs" />
     <Compile Include="Implementations\SoftUpdateChecker.cs" />
+    <Compile Include="Interfaces\IArchiveFinder.cs" />
+    <Compile Include="Interfaces\IArchiveFinderCreator.cs" />
+    <Compile Include="Interfaces\IChecker.cs" />
+    <Compile Include="Interfaces\ICheckerCreator.cs" />
+    <Compile Include="Interfaces\IErrorFinder.cs" />
+    <Compile Include="Interfaces\IErrorFinderCreator.cs" />
+    <Compile Include="Interfaces\IErrorRemover.cs" />
+    <Compile Include="Interfaces\IErrorRemoverCreator.cs" />
+    <Compile Include="Interfaces\IListReturner.cs" />
     <Compile Include="Interfaces\ISoftUpdate.cs" />
     <Compile Include="Interfaces\ISoftUpdateCheck.cs" />
     <Compile Include="ISoftUpdate.cs" />
@@ -80,7 +98,6 @@
     <Compile Include="ReportWriter.cs" />
     <Compile Include="SoftUpdate.cs" />
     <Compile Include="SoftUpdateChecker.cs" />
-    <Compile Include="PackedVuFiles.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
