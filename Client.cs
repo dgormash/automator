@@ -56,11 +56,9 @@ namespace AutomatorPrg
             var err = errors as string[] ?? errors.ToArray();
             if (err.Length != 0)
             {
-                //todo инстанцирование класса, реалезующего удаление ошибок
-                foreach (var e in err)
-                {
-                    //todo удаление ошибок после проверки чеккером
-                }
+                _errorRemoverCreator = new ErrorRemoverCreator();
+                var remover = _errorRemoverCreator.Create();
+                remover.RemoveErrors(err);
             }
 
             _archiveFinderCreator = new ArchiveFinderCreator();
@@ -70,10 +68,7 @@ namespace AutomatorPrg
             if (arch.Length!= 0)
             {
                 //todo инстанцирование класса, осуществляющего выгрузку архивов на ftp
-                foreach (var a in arch)
-                {
-                    //todo выгрузка файлов на ftp
-                }
+                
             }
             #endregion
 

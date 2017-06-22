@@ -38,7 +38,7 @@ namespace AutomatorPrg
 
                         /*Если есть, то в каталоге \err создаём файл с именем исходного файла и     */
                         /*добавочным расширением .err. Это будет файл, содержащий вырезанные ошибки*/
-                        FileStream newFile = File.Create(path + @"\err\" + name + @".err");
+ /*1*/                       FileStream newFile = File.Create(path + @"\err\" + name + @".err");
                         report.WriteToFile(string.Format("\t{0}.err", name));
                         newFile.Dispose();
 
