@@ -22,7 +22,8 @@ namespace AutomatorPrg
         private IErrorFinderCreator _errorFinderCreator;
         private IArchiveFinderCreator _archiveFinderCreator;
         private IErrorRemoverCreator _errorRemoverCreator;
-        private bool doCycle;
+        private IGarbageCollectorCreator _garbageCollectorCreator;
+        private bool doIteration;
 
         public string FilePath {private get; set; }
         public string Mask { private get; set; }
@@ -35,40 +36,57 @@ namespace AutomatorPrg
             #region Инстанцируем класс, возвращающий список файлов
 
             listReturner = new ListReturner();
-            var fileList = listReturner.GetFileList(FilePath, Mask);
+            IEnumerable<string> fileList = null;
+            //var fileList = listReturner.GetFileList(FilePath, Mask);
             #endregion
-
-            //todo Релаизовать цикл, проверяющий файлы чеккером до тех пор, пока список ошибок не будет равным нулю
-            #region Инстанцируем чеккер
 
             _checkerCreator = new CommonCheckerCreator();
             var checker = _checkerCreator.CreateChecker();
             checker.CheckerLocation = CurrentChecker;
-            doCycle = true;
+            doIteration = true;
 
-            while (doCycle)
+            _errorFinderCreator = new ErrorFinderCreator();
+            var errorList = _errorFinderCreator.Create();
+
+            _errorRemoverCreator = new ErrorRemoverCreator();
+            var remover = _errorRemoverCreator.Create();
+            IEnumerable<string> errors = null;
+
+            _garbageCollectorCreator = new GarbageCollectorCreator();
+            var collector = _garbageCollectorCreator.Create();
+
+            while (doIteration)
             {
+                //Получаем список файлов
+                fileList = listReturner.GetFileList(FilePath, Mask);
+
+                //Для каждого файла из списка запускем чеккер. В результате появятся либо архивы, либо останутся исходные файлы и
+                //появятся новые файлы с расширением .txt
                 foreach (var file in fileList)
                 {
                     checker.StartChecking(file);
                 }
 
-                #endregion
-
-                #region Инстанцируем класс, проверяющий результаты
-
-                _errorFinderCreator = new ErrorFinderCreator();
-                var errorList = _errorFinderCreator.Create();
-                var errors = errorList.FindErrors(FilePath);
+                //Получаем список ошибок и для каждого из файлов в списке производим удаление ошибок
+                errors = errorList.FindErrors(FilePath);
                 var err = errors as string[] ?? errors.ToArray();
                 if (err.Length != 0)
                 {
-                    _errorRemoverCreator = new ErrorRemoverCreator();
-                    var remover = _errorRemoverCreator.Create();
                     remover.RemoveErrors(err);
                 }
+                else
+                {
+                    doIteration = false;
+                }
 
-                _archiveFinderCreator = new ArchiveFinderCreator();
+                //todo Организовать заполнения свойства TrashDirectory
+                collector.TrashDirectory = "";
+                collector.CleanUp(FilePath);
+            }
+
+
+
+            _archiveFinderCreator = new ArchiveFinderCreator();
                 var archList = _archiveFinderCreator.Create();
                 var archives = archList.FindArchives(FilePath);
                 var arch = archives as string[] ?? archives.ToArray();
@@ -77,9 +95,8 @@ namespace AutomatorPrg
                     //todo инстанцирование класса, осуществляющего выгрузку архивов на ftp
 
                 }
-            }
-            #endregion
-
+            
+          
             return (byte) result;
         }
     }

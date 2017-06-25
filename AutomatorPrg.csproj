@@ -76,6 +76,9 @@
     <Compile Include="Implementations\ErrorFinder.cs" />
     <Compile Include="Implementations\ErrorRemover.cs" />
     <Compile Include="Implementations\ErrorRemoverCreator.cs" />
+    <Compile Include="Implementations\ErrorRetriever.cs" />
+    <Compile Include="Implementations\GarbageCollector.cs" />
+    <Compile Include="Implementations\GarbageCollectorCreator.cs" />
     <Compile Include="Implementations\ListReturner.cs" />
     <Compile Include="Implementations\ErrorFinderCreator.cs" />
     <Compile Include="Implementations\SoftUpdateChecker.cs" />
@@ -87,6 +90,9 @@
     <Compile Include="Interfaces\IErrorFinderCreator.cs" />
     <Compile Include="Interfaces\IErrorRemover.cs" />
     <Compile Include="Interfaces\IErrorRemoverCreator.cs" />
+    <Compile Include="Interfaces\IErrorRetriever.cs" />
+    <Compile Include="Interfaces\IGarbageCollector.cs" />
+    <Compile Include="Interfaces\IGarbageCollectorCreator.cs" />
     <Compile Include="Interfaces\IListReturner.cs" />
     <Compile Include="Interfaces\ISoftUpdate.cs" />
     <Compile Include="Interfaces\ISoftUpdateCheck.cs" />
