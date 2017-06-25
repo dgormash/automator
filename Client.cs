@@ -22,6 +22,7 @@ namespace AutomatorPrg
         private IErrorFinderCreator _errorFinderCreator;
         private IArchiveFinderCreator _archiveFinderCreator;
         private IErrorRemoverCreator _errorRemoverCreator;
+        private bool doCycle;
 
         public string FilePath {private get; set; }
         public string Mask { private get; set; }
@@ -37,38 +38,45 @@ namespace AutomatorPrg
             var fileList = listReturner.GetFileList(FilePath, Mask);
             #endregion
 
+            //todo Релаизовать цикл, проверяющий файлы чеккером до тех пор, пока список ошибок не будет равным нулю
             #region Инстанцируем чеккер
 
             _checkerCreator = new CommonCheckerCreator();
             var checker = _checkerCreator.CreateChecker();
             checker.CheckerLocation = CurrentChecker;
-            foreach (var file in fileList)
-            {
-                checker.StartChecking(file);
-            }
-            #endregion
+            doCycle = true;
 
-            #region Инстанцируем класс, проверяющий результаты
-
-            _errorFinderCreator = new ErrorFinderCreator();
-            var errorList = _errorFinderCreator.Create();
-            var errors = errorList.FindErrors(FilePath);
-            var err = errors as string[] ?? errors.ToArray();
-            if (err.Length != 0)
+            while (doCycle)
             {
-                _errorRemoverCreator = new ErrorRemoverCreator();
-                var remover = _errorRemoverCreator.Create();
-                remover.RemoveErrors(err);
-            }
+                foreach (var file in fileList)
+                {
+                    checker.StartChecking(file);
+                }
 
-            _archiveFinderCreator = new ArchiveFinderCreator();
-            var archList = _archiveFinderCreator.Create();
-            var archives = archList.FindArchives(FilePath);
-            var arch = archives as string[] ?? archives.ToArray();
-            if (arch.Length!= 0)
-            {
-                //todo инстанцирование класса, осуществляющего выгрузку архивов на ftp
-                
+                #endregion
+
+                #region Инстанцируем класс, проверяющий результаты
+
+                _errorFinderCreator = new ErrorFinderCreator();
+                var errorList = _errorFinderCreator.Create();
+                var errors = errorList.FindErrors(FilePath);
+                var err = errors as string[] ?? errors.ToArray();
+                if (err.Length != 0)
+                {
+                    _errorRemoverCreator = new ErrorRemoverCreator();
+                    var remover = _errorRemoverCreator.Create();
+                    remover.RemoveErrors(err);
+                }
+
+                _archiveFinderCreator = new ArchiveFinderCreator();
+                var archList = _archiveFinderCreator.Create();
+                var archives = archList.FindArchives(FilePath);
+                var arch = archives as string[] ?? archives.ToArray();
+                if (arch.Length != 0)
+                {
+                    //todo инстанцирование класса, осуществляющего выгрузку архивов на ftp
+
+                }
             }
             #endregion
 
