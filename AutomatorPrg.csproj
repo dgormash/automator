@@ -51,6 +51,9 @@
     <ApplicationIcon>
     </ApplicationIcon>
   </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -60,11 +63,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Abstructions\FtpServer.cs" />
     <Compile Include="CheckStarter.cs" />
     <Compile Include="Client.cs" />
     <Compile Include="ConsoleMessage.cs" />
     <Compile Include="ERemover.cs" />
-    <Compile Include="FileAppender.cs" />
+    <Compile Include="FileAppenderOld.cs" />
     <Compile Include="FLister.cs" />
     <Compile Include="FtpFileManager.cs" />
     <Compile Include="FtpManager.cs" />
@@ -77,6 +81,10 @@
     <Compile Include="Implementations\ErrorRemover.cs" />
     <Compile Include="Implementations\ErrorRemoverCreator.cs" />
     <Compile Include="Implementations\ErrorRetriever.cs" />
+    <Compile Include="Implementations\FileAppender.cs" />
+    <Compile Include="Implementations\FileAppenderCreator.cs" />
+    <Compile Include="Implementations\FtpUploader.cs" />
+    <Compile Include="Implementations\FtpUploaderCreator.cs" />
     <Compile Include="Implementations\GarbageCollector.cs" />
     <Compile Include="Implementations\GarbageCollectorCreator.cs" />
     <Compile Include="Implementations\ListReturner.cs" />
@@ -91,6 +99,11 @@
     <Compile Include="Interfaces\IErrorRemover.cs" />
     <Compile Include="Interfaces\IErrorRemoverCreator.cs" />
     <Compile Include="Interfaces\IErrorRetriever.cs" />
+    <Compile Include="Interfaces\IFileAppender.cs" />
+    <Compile Include="Interfaces\IFileAppenderCreator.cs" />
+    <Compile Include="Interfaces\IFtpServer.cs" />
+    <Compile Include="Interfaces\IFtpUploader.cs" />
+    <Compile Include="Interfaces\IFtpUploaderCreator.cs" />
     <Compile Include="Interfaces\IGarbageCollector.cs" />
     <Compile Include="Interfaces\IGarbageCollectorCreator.cs" />
     <Compile Include="Interfaces\IListReturner.cs" />
@@ -104,6 +117,8 @@
     <Compile Include="ReportWriter.cs" />
     <Compile Include="SoftUpdate.cs" />
     <Compile Include="SoftUpdateChecker.cs" />
+    <Compile Include="UploadedFileInfo.cs" />
+    <Compile Include="UploadInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

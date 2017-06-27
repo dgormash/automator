@@ -3,7 +3,7 @@ using System.Text;
 
 namespace AutomatorPrg
 {
-    class FileAppender
+    class FileAppenderOld
     {
         public void AppendFile(string curFile, string addFile)
         {

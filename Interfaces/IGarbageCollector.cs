@@ -2,8 +2,7 @@
 {
     public interface IGarbageCollector
     {
-        string TrashDirectory { get; set; }
-        string ErrorDirectory { get; set; }
-        void CleanUp(string path);
+        string MoveTo { get; set; }
+        void CleanUp(string path, string mask);
     }
 }

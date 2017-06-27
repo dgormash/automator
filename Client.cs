@@ -23,9 +23,12 @@ namespace AutomatorPrg
         private IArchiveFinderCreator _archiveFinderCreator;
         private IErrorRemoverCreator _errorRemoverCreator;
         private IGarbageCollectorCreator _garbageCollectorCreator;
-        private bool doIteration;
+        private IFileAppenderCreator _fileAppenderCreator;
+        private IFtpUploaderCreator _ftpUploaderCreator;
+        private bool _doIteration;
 
         public string FilePath {private get; set; }
+        public string Additive { private get; set; }
         public string Mask { private get; set; }
         public string CurrentChecker { private get; set; }
 
@@ -43,7 +46,7 @@ namespace AutomatorPrg
             _checkerCreator = new CommonCheckerCreator();
             var checker = _checkerCreator.CreateChecker();
             checker.CheckerLocation = CurrentChecker;
-            doIteration = true;
+            
 
             _errorFinderCreator = new ErrorFinderCreator();
             var errorList = _errorFinderCreator.Create();
@@ -55,8 +58,15 @@ namespace AutomatorPrg
             _garbageCollectorCreator = new GarbageCollectorCreator();
             var collector = _garbageCollectorCreator.Create();
 
-            while (doIteration)
+            //1. Дополнили файл, если есть, чем дополнять
+            _fileAppenderCreator = new FileAppenderCreator();
+            var appender = _fileAppenderCreator.Create();
+            appender.AppendFile(FilePath, Additive);
+
+            _doIteration = true;
+            while (_doIteration)
             {
+                //todo Провести оптимизацию создания переменных
                 //Получаем список файлов
                 fileList = listReturner.GetFileList(FilePath, Mask);
 
@@ -76,12 +86,15 @@ namespace AutomatorPrg
                 }
                 else
                 {
-                    doIteration = false;
+                    _doIteration = false;
                 }
 
-                //todo Организовать заполнения свойства TrashDirectory
-                collector.TrashDirectory = "";
-                collector.CleanUp(FilePath);
+                //todo Организовать заполнения свойства MoveTo
+                collector.MoveTo = ""; //dispose directory
+                collector.CleanUp(FilePath, "*.txt");
+                collector.CleanUp(FilePath, "*.old");
+                collector.MoveTo = ""; //err directory
+                collector.CleanUp(FilePath, "*.err");
             }
 
 
@@ -92,8 +105,10 @@ namespace AutomatorPrg
                 var arch = archives as string[] ?? archives.ToArray();
                 if (arch.Length != 0)
                 {
-                    //todo инстанцирование класса, осуществляющего выгрузку архивов на ftp
-
+                   _ftpUploaderCreator=new FtpUploaderCreator() ;
+                    ftpUploader = _ftpUploaderCreator.Create();
+                    var uploadResult = ftpUploader.UploadFiles(arch);
+                //todo uploadResult вывести в протокол выполнения и на экран
                 }
             
           

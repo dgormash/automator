@@ -152,7 +152,7 @@ namespace AutomatorPrg
                         /*Добавка будет производиться в первый\единственный файл отгрузки                          */
                         if (File.Exists(string.Format(@"{0}\add\{1}.000", path, Path.GetFileNameWithoutExtension(name))))
                         {
-                            new FileAppender().AppendFile(f, string.Format(@"{0}\add\{1}.000", path, 
+                            new FileAppenderOld().AppendFile(f, string.Format(@"{0}\add\{1}.000", path, 
                                 Path.GetFileNameWithoutExtension(name)));
                             addName = Path.GetFileName(name);
                         }
@@ -189,7 +189,7 @@ namespace AutomatorPrg
                         /*Добавка будет производиться в первый\единственный файл отгрузки                          */
                         if (File.Exists(string.Format(@"{0}\add\{1}.000", path, Path.GetFileNameWithoutExtension(name))))
                         {
-                            new FileAppender().AppendFile(f, string.Format(@"{0}\add\{1}.000", path,
+                            new FileAppenderOld().AppendFile(f, string.Format(@"{0}\add\{1}.000", path,
                                 Path.GetFileNameWithoutExtension(name)));
                             addName = Path.GetFileName(name);
                             

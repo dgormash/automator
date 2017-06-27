@@ -6,45 +6,20 @@ namespace AutomatorPrg.Implementations
     public class GarbageCollector:IGarbageCollector
     {
 
-        public string ErrorDirectory { get; set; }
-        public string TrashDirectory { get; set; }
+        public string MoveTo { set; get; }
 
-        public void CleanUp(string path)
+        public void CleanUp(string path, string mask)
         {
-            var txtFiles = Directory.GetFiles(path, "*.txt");
+            var fileList = Directory.GetFiles(path, mask);
 
-            foreach (var file in txtFiles)
+            foreach (var file in fileList)
             {
-                var txtFileName = Path.GetFileName(file);
-                if (File.Exists(string.Format(@"{0}\{1}", TrashDirectory, txtFileName)))
+                var fileName = Path.GetFileName(file);
+                if (File.Exists(string.Format(@"{0}\{1}", MoveTo, fileName)))
                 {
-                    File.Delete(string.Format(@"{0}\{1}", TrashDirectory, txtFileName));
+                    File.Delete(string.Format(@"{0}\{1}", MoveTo, fileName));
                 }
-                File.Move(file, string.Format(@"{0}\{1}", TrashDirectory, txtFileName));
-            }
-
-            var errFiles = Directory.GetFiles(path, "*.err");
-
-            foreach (var file in errFiles)
-            {
-                var errFileName = Path.GetFileName(file);
-                if (File.Exists(string.Format(@"{0}\{1}", ErrorDirectory, errFileName)))
-                {
-                    File.Delete(string.Format(@"{0}\{1}", ErrorDirectory, errFileName));
-                }
-                File.Move(file, string.Format(@"{0}\{1}", ErrorDirectory, errFileName));
-            }
-
-            var oldFiles = Directory.GetFiles(path, "*.old");
-
-            foreach (var file in oldFiles)
-            {
-                var oldFileName = Path.GetFileName(file);
-                if (File.Exists(string.Format(@"{0}\{1}", TrashDirectory, oldFileName)))
-                {
-                    File.Delete(string.Format(@"{0}\{1}", TrashDirectory, oldFileName));
-                }
-                File.Move(file, string.Format(@"{0}\{1}", ErrorDirectory, oldFileName));
+                File.Move(file, string.Format(@"{0}\{1}", MoveTo, fileName));
             }
         }
     }
