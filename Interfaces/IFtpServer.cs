@@ -4,8 +4,14 @@ namespace AutomatorPrg.Interfaces
 {
     public interface IFtpServer
     {
-        string Login { get; set; } 
-        string Password { get; set; }
-        string Address { get; set; }
+        void SetUploadMethod(IFtpUpload uploadMethod);
+        void SetDownloadMethod(IFtpDownload downloadMethod);
+        void SetCheckingMethod(IFtpCheckUpoladingStatus checkingMethod);
+        void SetGetDirectoriesMethod(IFtpGetDirectories getDirectoriesMethod);
+        void SetMakeDirectoryMethod(IFtpMakeDirectory makeDirectoryMethod);
+        void SetGetCurrentDirectoryMethod(IFtpGetCurrentDirectoy getCurrentDirectoryMethod);
+        void SetLogin(string login);
+        void SetPassword(string password);
+        void SetAddress(string address);
     }
 }

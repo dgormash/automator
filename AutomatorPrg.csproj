@@ -63,7 +63,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Abstructions\FtpServer.cs" />
     <Compile Include="CheckStarter.cs" />
     <Compile Include="Client.cs" />
     <Compile Include="ConsoleMessage.cs" />
@@ -83,6 +82,8 @@
     <Compile Include="Implementations\ErrorRetriever.cs" />
     <Compile Include="Implementations\FileAppender.cs" />
     <Compile Include="Implementations\FileAppenderCreator.cs" />
+    <Compile Include="Implementations\FtpFileUploader.cs" />
+    <Compile Include="Implementations\FtpServer.cs" />
     <Compile Include="Implementations\FtpUploader.cs" />
     <Compile Include="Implementations\FtpUploaderCreator.cs" />
     <Compile Include="Implementations\GarbageCollector.cs" />
@@ -102,6 +103,7 @@
     <Compile Include="Interfaces\IFileAppender.cs" />
     <Compile Include="Interfaces\IFileAppenderCreator.cs" />
     <Compile Include="Interfaces\IFtpServer.cs" />
+    <Compile Include="Interfaces\IFtpUpload.cs" />
     <Compile Include="Interfaces\IFtpUploader.cs" />
     <Compile Include="Interfaces\IFtpUploaderCreator.cs" />
     <Compile Include="Interfaces\IGarbageCollector.cs" />
@@ -136,7 +138,9 @@
       <Install>true</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Abstructions\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PreBuildEvent>
