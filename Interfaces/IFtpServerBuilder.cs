@@ -11,5 +11,7 @@
         void BuildLogin();
         void BuildPassword();
         void BuildAddress();
+
+        IFtpServer GetFtpServer();
     }
 }

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.IO;
 using System.Net;
-using AutomatorPrg.Abstructions;
 using AutomatorPrg.Interfaces;
 
 namespace AutomatorPrg.Implementations
@@ -19,7 +18,7 @@ namespace AutomatorPrg.Implementations
                 if ((fileName.StartsWith(@"a") || fileName.StartsWith(@"f")))
                 {
                     //todo Создание экземпляра ftp-сервера для ИЦ
-                    var ic = FtpServer()
+                    //var ic = FtpServer()
                 }
 
                 if (fileName.StartsWith(@"v"))

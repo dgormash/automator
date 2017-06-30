@@ -1,6 +1,4 @@
-﻿using System.Reflection.Emit;
-
-namespace AutomatorPrg.Interfaces
+﻿namespace AutomatorPrg.Interfaces
 {
     public interface IFtpServer
     {
@@ -14,4 +12,6 @@ namespace AutomatorPrg.Interfaces
         void SetPassword(string password);
         void SetAddress(string address);
     }
+
+
 }
