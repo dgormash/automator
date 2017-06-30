@@ -8,6 +8,11 @@ namespace AutomatorPrg.Implementations
         private string _password;
         private string _address;
         private IFtpUpload _uploader;
+        private IFtpDownload _download;
+        private IFtpCheckUploadingStatus _checkResult;
+        private IFtpGetDirectories _directories;
+        private IFtpMakeDirectory _directoryMaker;
+        private IFtpGetCurrentDirectory _currnetDirectory;
         public void SetUploadMethod(IFtpUpload uploadMethod)
         {
             _uploader = uploadMethod;    
@@ -15,42 +20,42 @@ namespace AutomatorPrg.Implementations
 
         public void SetDownloadMethod(IFtpDownload downloadMethod)
         {
-            throw new System.NotImplementedException();
+            _download = downloadMethod;
         }
 
         public void SetCheckingMethod(IFtpCheckUpoladingStatus checkingMethod)
         {
-            throw new System.NotImplementedException();
+            _checkResult = checkingMethod;
         }
 
         public void SetGetDirectoriesMethod(IFtpGetDirectories getDirectoriesMethod)
         {
-            throw new System.NotImplementedException();
+            _directories = getDirectoriesMethod;
         }
 
         public void SetMakeDirectoryMethod(IFtpMakeDirectory makeDirectoryMethod)
         {
-            throw new System.NotImplementedException();
+            _directoryMaker = makeDirectoryMethod;
         }
 
         public void SetGetCurrentDirectoryMethod(IFtpGetCurrentDirectoy getCurrentDirectoryMethod)
         {
-            throw new System.NotImplementedException();
+            _currnetDirectory = getCurrentDirectoryMethod;
         }
 
         public void SetLogin(string login)
         {
-            throw new System.NotImplementedException();
+            _login = login;
         }
 
         public void SetPassword(string password)
         {
-            throw new System.NotImplementedException();
+            _password = password;
         }
 
         public void SetAddress(string address)
         {
-            throw new System.NotImplementedException();
+            _address = address;
         }
     }
 }

@@ -103,6 +103,7 @@
     <Compile Include="Interfaces\IFileAppender.cs" />
     <Compile Include="Interfaces\IFileAppenderCreator.cs" />
     <Compile Include="Interfaces\IFtpServer.cs" />
+    <Compile Include="Interfaces\IFtpServerBuilder.cs" />
     <Compile Include="Interfaces\IFtpUpload.cs" />
     <Compile Include="Interfaces\IFtpUploader.cs" />
     <Compile Include="Interfaces\IFtpUploaderCreator.cs" />
