@@ -2,7 +2,7 @@
 
 namespace AutomatorPrg.Implementations
 {
-    internal class FtpFileStatusChecker : IFtpCheckUpoladingStatus
+    internal class FtpFileStatusChecker : IFtpCheckUploadingStatus
     {
     }
 }

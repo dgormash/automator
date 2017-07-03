@@ -1,4 +1,4 @@
-﻿namespace AutomatorPrg.Interfaces
+﻿namespace AutomatorPrg
 {
     public enum FtpFileUploadingStatus
     {

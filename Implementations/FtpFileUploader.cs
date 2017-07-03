@@ -14,7 +14,7 @@ namespace AutomatorPrg.Implementations
             var uplFile = new FileInfo(file);
             try
             {
-                var wRequest = (FtpWebRequest)WebRequest.Create(string.Format(@"{0}\{1}", ftpPath, uplFile.Name));
+                var wRequest = (FtpWebRequest)WebRequest.Create($@"{ftpPath}\{uplFile.Name}");
                 wRequest.Proxy = null;
                 wRequest.Credentials = new NetworkCredential(login, password);
                 wRequest.Method = WebRequestMethods.Ftp.UploadFile;
@@ -46,9 +46,8 @@ namespace AutomatorPrg.Implementations
                 var errCode = ftpResponse.StatusCode;
                 if (wEx.Status == WebExceptionStatus.ProtocolError)
                 {
-                    ErrorMessage = string.Format("Ошибка: {0}; Файл: {1}; Размер: {2}; Сообщение: {3}", errCode,
-                        Path.GetFileName(file),
-                        uplFile.Length, ftpResponse.StatusDescription);
+                    ErrorMessage =
+                        $"Ошибка: {errCode}; Файл: {Path.GetFileName(file)}; Размер: {uplFile.Length}; Сообщение: {ftpResponse.StatusDescription}";
                 }
             }
         }

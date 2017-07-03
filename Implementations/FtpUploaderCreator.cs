@@ -6,7 +6,7 @@ namespace AutomatorPrg.Implementations
     {
         public IFtpUploader Create()
         {
-            return new FtpUploader();
+            return new FtpFileDistributor();
         }
     }
 }

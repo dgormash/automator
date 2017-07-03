@@ -1,14 +1,20 @@
-﻿using AutomatorPrg.Interfaces;
+﻿using System.Globalization;
+using AutomatorPrg.Interfaces;
 
 namespace AutomatorPrg.Implementations
 {
     public class FtpServer:IFtpServer
     {
+        //todo Возможно понадобятся методы доступа к полям (операциям)
+        //private IFtpSetLogin _login;
+        //private IFtpSetPassword _password;
+        //private IFtpSetAddress _address;
+
         private string _login;
         private string _password;
         private string _address;
         private IFtpUpload _uploader;
-        private IFtpDownload _download;
+        private IFtpDownload _downloader;
         private IFtpCheckUploadingStatus _checkResult;
         private IFtpGetDirectories _directories;
         private IFtpMakeDirectory _directoryMaker;
@@ -18,19 +24,40 @@ namespace AutomatorPrg.Implementations
             _uploader = uploadMethod;    
         }
 
-        public void SetDownloadMethod(IFtpDownload downloadMethod)
+        public void UploadFile(string file)
         {
-            _download = downloadMethod;
+            _uploader.UploadFile(file, _address, _login, _password);
         }
 
-        public void SetCheckingMethod(IFtpCheckUpoladingStatus checkingMethod)
+        public void SetDownloadMethod(IFtpDownload downloadMethod)
         {
-            _checkResult = checkingMethod;
+            _downloader = downloadMethod;
         }
+
+        public void DownloadFile()
+        {
+            
+        }
+
+        public void SetCheckingMethod(IFtpCheckUploadingStatus checkingMethod)
+        {
+            _checkResult = checkingMethod; 
+        }
+
+        public void CheckUploadingStatus()
+        {
+            
+        }
+
 
         public void SetGetDirectoriesMethod(IFtpGetDirectories getDirectoriesMethod)
         {
             _directories = getDirectoriesMethod;
+        }
+
+        public void GetDirectoriesList()
+        {
+            
         }
 
         public void SetMakeDirectoryMethod(IFtpMakeDirectory makeDirectoryMethod)
@@ -38,24 +65,49 @@ namespace AutomatorPrg.Implementations
             _directoryMaker = makeDirectoryMethod;
         }
 
-        public void SetGetCurrentDirectoryMethod(IFtpGetCurrentDirectoy getCurrentDirectoryMethod)
+        public void MakeDirectoryOnFtpServer()
+        {
+            
+        }
+
+        public void SetGetCurrentDirectoryMethod(IFtpGetCurrentDirectory getCurrentDirectoryMethod)
         {
             _currnetDirectory = getCurrentDirectoryMethod;
         }
 
-        public void SetLogin(string login)
+        public void GetCurrentDirectory()
         {
-            _login = login;
+            
         }
 
-        public void SetPassword(string password)
+        public void SetLogin(string value)
         {
-            _password = password;
+            _login = value;
         }
 
-        public void SetAddress(string address)
+        public void SetPassword(string value)
         {
-            _address = address;
+            _password = value;
         }
+
+        public void SetAddress(string value)
+        {
+            _address = value;
+        }
+
+        //public void SetLogin(IFtpSetLogin setLoginMethod)
+        //{
+        //    _login = setLoginMethod;
+        //}
+
+        //public void SetPassword(IFtpSetPassword setPasswordMethod)
+        //{
+        //    _password = setPasswordMethod;
+        //}
+
+        //public void SetAddress(IFtpSetAddress setAddressMethod)
+        //{
+        //    _address = setAddressMethod;
+        //}
     }
 }

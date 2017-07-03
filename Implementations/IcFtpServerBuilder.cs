@@ -55,7 +55,7 @@ namespace AutomatorPrg.Implementations
             _ftp.SetAddress(@"ftp://vc_ic.uvd.chel.su/%2fusers/obmen.zad/obmen.gai");
         }
 
-        public IFtpServer GetFtpServer()
+        public FtpServer GetFtpServer()
         {
             return _ftp;
         }

@@ -2,7 +2,8 @@
 
 namespace AutomatorPrg.Implementations
 {
-    internal class FtpCurrentDirectoryRetriever : IFtpGetCurrentDirectory
+    public class IcFtpPasswordSetter:IFtpSetPassword
     {
+         
     }
 }

@@ -1,4 +1,6 @@
-﻿namespace AutomatorPrg.Interfaces
+﻿using AutomatorPrg.Implementations;
+
+namespace AutomatorPrg.Interfaces
 {
     public interface IFtpServerBuilder
     {
@@ -12,6 +14,6 @@
         void BuildPassword();
         void BuildAddress();
 
-        IFtpServer GetFtpServer();
+        FtpServer GetFtpServer();
     }
 }

@@ -14,7 +14,7 @@ namespace AutomatorPrg
         private IResultChecker resultChecker;
         private IErrorRemover errorRemover;
         private IProtocolWriter protocolWriter;
-        private IFtpUploader ftpUploader;
+        private IFtpFileDistributor _ftpFileDistributor;
         private IFtpDownloader ftpDownloader;
         private IGarbageCollector garbageCollector;
 
@@ -24,7 +24,7 @@ namespace AutomatorPrg
         private IErrorRemoverCreator _errorRemoverCreator;
         private IGarbageCollectorCreator _garbageCollectorCreator;
         private IFileAppenderCreator _fileAppenderCreator;
-        private IFtpUploaderCreator _ftpUploaderCreator;
+        private IFtpFileDistributorCreator _ftpFileDistributorCreator;
         private bool _doIteration;
 
         public string FilePath {private get; set; }
@@ -105,9 +105,9 @@ namespace AutomatorPrg
                 var arch = archives as string[] ?? archives.ToArray();
                 if (arch.Length != 0)
                 {
-                   _ftpUploaderCreator=new FtpUploaderCreator() ;
-                    ftpUploader = _ftpUploaderCreator.Create();
-                    var uploadResult = ftpUploader.UploadFiles(arch);
+                   _ftpFileDistributorCreator=new FtpFileDistributorCreator() ;
+                    _ftpFileDistributor = _ftpFileDistributorCreator.Create();
+                    var uploadResult = _ftpFileDistributor.DistributeFiles(arch);
                 //todo uploadResult вывести в протокол выполнения и на экран
                 }
             

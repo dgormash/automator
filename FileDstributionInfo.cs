@@ -2,7 +2,7 @@
 
 namespace AutomatorPrg
 {
-    public class UploadInfo
+    public class FileDstributionInfo
     {
         public ushort Count { get; set; }
         public List<UploadedFileInfo> FileList { get; set; } 
