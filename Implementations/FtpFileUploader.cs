@@ -7,7 +7,9 @@ namespace AutomatorPrg.Implementations
     public class FtpFileUploader:IFtpUpload
     {
         public string ErrorMessage { get; set; }
-
+        /*todo Предусмотреть возвращаемое значение метода UploadFile, чтобы можно было знать об возникшей при выгрузке ошибке и проверить
+          свойство ErrorMessage
+        */
         public void UploadFile(string file, string ftpPath, string login, string password)
         {
             if (file == null) return;

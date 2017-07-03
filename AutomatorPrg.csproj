@@ -72,6 +72,7 @@
     <Compile Include="FtpFileManager.cs" />
     <Compile Include="FtpManager.cs" />
     <Compile Include="ILoger.cs" />
+    <Compile Include="Implementations\AMoscowFtpServerBuilder.cs" />
     <Compile Include="Implementations\ArchiveFinder.cs" />
     <Compile Include="Implementations\ArchiveFinderCreator.cs" />
     <Compile Include="Implementations\CommonChecker.cs" />
@@ -82,6 +83,7 @@
     <Compile Include="Implementations\ErrorRetriever.cs" />
     <Compile Include="Implementations\FileAppender.cs" />
     <Compile Include="Implementations\FileAppenderCreator.cs" />
+    <Compile Include="Implementations\FMoscowFtpServerBuilder.cs" />
     <Compile Include="Implementations\FtpCurrentDirectoryRetriever.cs" />
     <Compile Include="Implementations\FtpDirectoryCreator.cs" />
     <Compile Include="Implementations\FtpDirectoryListRetriever.cs" />
@@ -98,6 +100,7 @@
     <Compile Include="Implementations\IcFtpLoginSetter.cs" />
     <Compile Include="Implementations\IcFtpPasswordSetter.cs" />
     <Compile Include="Implementations\IcFtpServerBuilder.cs" />
+    <Compile Include="Implementations\VMoscowFtpServerBuilder.cs" />
     <Compile Include="Interfaces\IFtpFileDistributorCreator.cs" />
     <Compile Include="Interfaces\IFtpGetCurrentDirectory.cs" />
     <Compile Include="Implementations\ListReturner.cs" />

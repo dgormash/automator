@@ -53,7 +53,7 @@ namespace AutomatorPrg
 
             _errorRemoverCreator = new ErrorRemoverCreator();
             var remover = _errorRemoverCreator.Create();
-            IEnumerable<string> errors = null;
+            IEnumerable<string> errors;
 
             _garbageCollectorCreator = new GarbageCollectorCreator();
             var collector = _garbageCollectorCreator.Create();
@@ -100,16 +100,16 @@ namespace AutomatorPrg
 
 
             _archiveFinderCreator = new ArchiveFinderCreator();
-                var archList = _archiveFinderCreator.Create();
-                var archives = archList.FindArchives(FilePath);
-                var arch = archives as string[] ?? archives.ToArray();
-                if (arch.Length != 0)
-                {
-                   _ftpFileDistributorCreator=new FtpFileDistributorCreator() ;
-                    _ftpFileDistributor = _ftpFileDistributorCreator.Create();
-                    var uploadResult = _ftpFileDistributor.DistributeFiles(arch);
-                //todo uploadResult вывести в протокол выполнения и на экран
-                }
+            var archList = _archiveFinderCreator.Create();
+            var archives = archList.FindArchives(FilePath);
+            var arch = archives as string[] ?? archives.ToArray();
+            if (arch.Length != 0)
+            {
+                _ftpFileDistributorCreator=new FtpFileDistributorCreator() ;
+                _ftpFileDistributor = _ftpFileDistributorCreator.Create();
+                var uploadResult = _ftpFileDistributor.DistributeFiles(arch);
+            //todo uploadResult вывести в протокол выполнения и на экран
+            }
             
           
             return (byte) result;

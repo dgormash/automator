@@ -36,7 +36,7 @@ namespace AutomatorPrg.Implementations
 
         public void DownloadFile()
         {
-            
+            //todo сделать загрузку файла с ftp
         }
 
         public void SetCheckingMethod(IFtpCheckUploadingStatus checkingMethod)
@@ -44,9 +44,9 @@ namespace AutomatorPrg.Implementations
             _checkResult = checkingMethod; 
         }
 
-        public void CheckUploadingStatus()
+        public void CheckUploadingStatus(string file)
         {
-            
+            //todo сделать проверку файла на ftp
         }
 
 
@@ -94,20 +94,5 @@ namespace AutomatorPrg.Implementations
         {
             _address = value;
         }
-
-        //public void SetLogin(IFtpSetLogin setLoginMethod)
-        //{
-        //    _login = setLoginMethod;
-        //}
-
-        //public void SetPassword(IFtpSetPassword setPasswordMethod)
-        //{
-        //    _password = setPasswordMethod;
-        //}
-
-        //public void SetAddress(IFtpSetAddress setAddressMethod)
-        //{
-        //    _address = setAddressMethod;
-        //}
     }
 }
