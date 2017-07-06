@@ -1,8 +1,10 @@
-﻿namespace AutomatorPrg.Interfaces
+﻿using System.Collections.Generic;
+
+namespace AutomatorPrg.Interfaces
 {
     public interface IFtpGetDirectories
     {
         string ErrorMessage { get; set; }
-        void GetDirectoryList (string ftpPath, string login, string password);
+        List<string> GetDirectoryList (string ftpPath, string login, string password);
     }
 }

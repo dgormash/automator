@@ -15,7 +15,7 @@ namespace AutomatorPrg.Implementations
             {
                 var fileName = Path.GetFileName(file);
                 if (fileName == null) continue;
-                //выгружаем файлы в ИЦ; выгружаем оба файла в один каталог на ftp-сервере
+                //выгружаем файлы в ИЦ; выгружаем оба типа файлов в один каталог на ftp-сервере
                 if (fileName.StartsWith(@"a") || fileName.StartsWith(@"f"))
                 {
                     var icFtpServerBuilder = new IcFtpServerBuilder();
@@ -40,6 +40,7 @@ namespace AutomatorPrg.Implementations
                     vMoscowFtpServerBuilder.BuildGetDirectoriesMethod();
                     vMoscowFtpServerBuilder.BuildGetCurrentDirectoryMethod();
                     var vMoscowFtp = vMoscowFtpServerBuilder.GetFtpServer();
+                    var directoriesList = vMoscowFtp.GetDirectoriesList();
                     //todo Получаем список директорий (возвращает список каталогов)
                     //todo Из полученного списка вычисляем текущий каталог (возвращает строку с именем текущего каталога)
                     //todo Получаем порядковый номер файла, если порядковый номер файла равен 001, то создаём на сервере новый каталог (текущий каталог +1)

@@ -1,4 +1,5 @@
-﻿using System.Globalization;
+﻿using System.Collections.Generic;
+using System.Globalization;
 using AutomatorPrg.Interfaces;
 
 namespace AutomatorPrg.Implementations
@@ -55,9 +56,9 @@ namespace AutomatorPrg.Implementations
             _directories = getDirectoriesMethod;
         }
 
-        public void GetDirectoriesList()
+        public List<string> GetDirectoriesList()
         {
-            
+            return _directories.GetDirectoryList(_address, _login, _password);
         }
 
         public void SetMakeDirectoryMethod(IFtpMakeDirectory makeDirectoryMethod)
