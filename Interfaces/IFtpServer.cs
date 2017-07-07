@@ -1,4 +1,5 @@
-﻿using Microsoft.SqlServer.Server;
+﻿using System.Net.Sockets;
+using Microsoft.SqlServer.Server;
 
 namespace AutomatorPrg.Interfaces
 {
@@ -10,9 +11,6 @@ namespace AutomatorPrg.Interfaces
         void SetGetDirectoriesMethod(IFtpGetDirectories getDirectoriesMethod);
         void SetMakeDirectoryMethod(IFtpMakeDirectory makeDirectoryMethod);
         void SetGetCurrentDirectoryMethod(IFtpGetCurrentDirectory getCurrentDirectoryMethod);
-        //void SetLogin(IFtpSetLogin setLoginMethod);
-        //void SetPassword(IFtpSetPassword setPasswordMethod);
-        //void SetAddress(IFtpSetAddress setAddressMethod);
         void SetLogin(string value);
         void SetPassword(string value);
         void SetAddress(string value);

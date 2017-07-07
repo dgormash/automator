@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Globalization;
+using System.Security.Cryptography.X509Certificates;
 using AutomatorPrg.Interfaces;
 
 namespace AutomatorPrg.Implementations
@@ -7,13 +8,17 @@ namespace AutomatorPrg.Implementations
     public class FtpServer:IFtpServer
     {
         //todo Возможно понадобятся методы доступа к полям (операциям)
-        //private IFtpSetLogin _login;
-        //private IFtpSetPassword _password;
-        //private IFtpSetAddress _address;
-
+        //public string Address { set { _address += value; } }
         private string _login;
         private string _password;
         private string _address;
+        private string _rDirectory;
+
+        public string CurrentDirectory
+        {
+            set { _rDirectory = value; }
+        }
+
         private IFtpUpload _uploader;
         private IFtpDownload _downloader;
         private IFtpCheckUploadingStatus _checkResult;
@@ -27,7 +32,7 @@ namespace AutomatorPrg.Implementations
 
         public void UploadFile(string file)
         {
-            _uploader.UploadFile(file, _address, _login, _password);
+            _uploader.UploadFile(file, $@"{_address}\{_rDirectory}", _login, _password);
         }
 
         public void SetDownloadMethod(IFtpDownload downloadMethod)
@@ -47,7 +52,7 @@ namespace AutomatorPrg.Implementations
 
         public void CheckUploadingStatus(string file)
         {
-            //todo сделать проверку файла на ftp
+            _checkResult.CheckUploadingStatus(file, $@"{_address}\{_rDirectory}", _login, _password);
         }
 
 
@@ -66,9 +71,9 @@ namespace AutomatorPrg.Implementations
             _directoryMaker = makeDirectoryMethod;
         }
 
-        public void MakeDirectoryOnFtpServer()
+        public void MakeDirectoryOnFtpServer(string directoryToMake)
         {
-            
+            _directoryMaker.CreateDirectoryOnServer($@"{_address}\{directoryToMake}", _login,_password );
         }
 
         public void SetGetCurrentDirectoryMethod(IFtpGetCurrentDirectory getCurrentDirectoryMethod)
@@ -76,10 +81,12 @@ namespace AutomatorPrg.Implementations
             _currnetDirectory = getCurrentDirectoryMethod;
         }
 
-        public void GetCurrentDirectory()
+        public string GetCurrentDirectory(List<string> directories)
         {
-            
+            return _currnetDirectory.GetCurrentDirectory(directories);
         }
+
+
 
         public void SetLogin(string value)
         {

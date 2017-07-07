@@ -7,12 +7,13 @@ namespace AutomatorPrg.Implementations
     public class FtpFileUploader:IFtpUpload
     {
         public string ErrorMessage { get; set; }
-        /*todo Предусмотреть возвращаемое значение метода UploadFile, чтобы можно было знать об возникшей при выгрузке ошибке и проверить
-          свойство ErrorMessage
-        */
-        public void UploadFile(string file, string ftpPath, string login, string password)
+        public FtpCommandStatus UploadFile(string file, string ftpPath, string login, string password)
         {
-            if (file == null) return;
+            if (file == null)
+            {
+                ErrorMessage = @"class: FtpFileUploader; Возможно файл, который вы хотите выгрузить на ftp не существует или путь к нему задан не правильно...";
+                return FtpCommandStatus.NotOk;
+            }
             var uplFile = new FileInfo(file);
             try
             {
@@ -50,8 +51,10 @@ namespace AutomatorPrg.Implementations
                 {
                     ErrorMessage =
                         $"Ошибка: {errCode}; Файл: {Path.GetFileName(file)}; Размер: {uplFile.Length}; Сообщение: {ftpResponse.StatusDescription}";
+                    return FtpCommandStatus.NotOk;
                 }
             }
+            return FtpCommandStatus.Ok;
         }
     }
 }

@@ -3,6 +3,7 @@
     public interface IFtpCheckUploadingStatus
     {
         string ErrorMessage { get; set; }
-        FtpFileUploadingStatus CheckUploadingStatus(string file, string ftpPath, string login, string password);
+        UploadedFileInfo FtpFileInfo { get; set; }
+        FtpCommandStatus CheckUploadingStatus(string file, string ftpPath, string login, string password);
     }
 }

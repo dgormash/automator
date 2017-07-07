@@ -1,6 +1,6 @@
 ﻿namespace AutomatorPrg
 {
-    public enum FtpFileUploadingStatus
+    public enum FtpCommandStatus
     {
         Ok,
         NotOk

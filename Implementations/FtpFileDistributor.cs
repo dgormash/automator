@@ -1,6 +1,6 @@
 ﻿using System;
 using System.IO;
-using System.Net;
+using System.Text.RegularExpressions;
 using AutomatorPrg.Interfaces;
 
 namespace AutomatorPrg.Implementations
@@ -26,12 +26,13 @@ namespace AutomatorPrg.Implementations
                     icFtpServerBuilder.BuildCheckingMethod();
                     var ic = icFtpServerBuilder.GetFtpServer();
                     ic.UploadFile(file);
-                    ic.CheckUploadingStatus(file);//todo предусмотреть возвращаемое значение метода
+                    ic.CheckUploadingStatus(fileName);//todo предусмотреть возвращаемое значение метода
                 }
 
                 if (fileName.StartsWith(@"v"))
                 {
                     var vMoscowFtpServerBuilder = new VMoscowFtpServerBuilder();
+                    //todo Вынести строительство в отдельный класс, а здесь только получать готовый ftp-сервер
                     vMoscowFtpServerBuilder.BuildAddress();
                     vMoscowFtpServerBuilder.BuildLogin();
                     vMoscowFtpServerBuilder.BuildPassword();
@@ -41,11 +42,16 @@ namespace AutomatorPrg.Implementations
                     vMoscowFtpServerBuilder.BuildGetCurrentDirectoryMethod();
                     var vMoscowFtp = vMoscowFtpServerBuilder.GetFtpServer();
                     var directoriesList = vMoscowFtp.GetDirectoriesList();
-                    //todo Получаем список директорий (возвращает список каталогов)
-                    //todo Из полученного списка вычисляем текущий каталог (возвращает строку с именем текущего каталога)
-                    //todo Получаем порядковый номер файла, если порядковый номер файла равен 001, то создаём на сервере новый каталог (текущий каталог +1)
+                    var currentDirectory = vMoscowFtp.GetCurrentDirectory(directoriesList);
+                    var regex = new Regex(@"v75_001\.rar");
+                    if (regex.IsMatch(fileName))
+                    {
+                        currentDirectory = IncreaseIndex(currentDirectory);
+                        vMoscowFtp.MakeDirectoryOnFtpServer(currentDirectory);
+                        vMoscowFtp.CurrentDirectory = currentDirectory;
+                    }
                     vMoscowFtp.UploadFile(file);
-                    vMoscowFtp.CheckUploadingStatus(file);//todo Предусмотреть возвращаемое значение
+                    vMoscowFtp.CheckUploadingStatus(fileName);//todo Предусмотреть возвращаемое значение, метод не реализован
                 }
                 else if (fileName.StartsWith(@"f"))
                 {
@@ -58,11 +64,17 @@ namespace AutomatorPrg.Implementations
                     fMoscowFtpServerBuilder.BuildGetDirectoriesMethod();
                     fMoscowFtpServerBuilder.BuildGetCurrentDirectoryMethod();
                     var fMoscowFtp = fMoscowFtpServerBuilder.GetFtpServer();
-                    //todo Получаем список директорий (возвращает список каталогов)
-                    //todo Из полученного списка вычисляем текущий каталог (возвращает строку с именем текущего каталога)
-                    //todo Получаем порядковый номер файла, если порядковый номер файла равен 001, то создаём на сервере новый каталог (текущий каталог +1)
+                    var directoriesList = fMoscowFtp.GetDirectoriesList();
+                    var currentDirectory = fMoscowFtp.GetCurrentDirectory(directoriesList);
+                    var regex = new Regex(@"f75_001\.rar");
+                    if (regex.IsMatch(fileName))
+                    {
+                        currentDirectory = IncreaseIndex(currentDirectory);
+                        fMoscowFtp.MakeDirectoryOnFtpServer(currentDirectory);
+                        fMoscowFtp.CurrentDirectory = currentDirectory;
+                    }
                     fMoscowFtp.UploadFile(file);
-                    fMoscowFtp.CheckUploadingStatus(file); //todo Предусмотреть возвращаемое значение
+                    fMoscowFtp.CheckUploadingStatus(fileName);//todo Предусмотреть возвращаемое значение, метод не реализован
                 }
                 else if(fileName.StartsWith(@"a"))
                 {
@@ -75,16 +87,27 @@ namespace AutomatorPrg.Implementations
                     aMoscowFtpServerBuilder.BuildGetDirectoriesMethod();
                     aMoscowFtpServerBuilder.BuildGetCurrentDirectoryMethod();
                     var aMoscowFtp = aMoscowFtpServerBuilder.GetFtpServer();
-                    //todo Получаем список директорий (возвращает список каталогов)
-                    //todo Из полученного списка вычисляем текущий каталог (возвращает строку с именем текущего каталога)
-                    //todo Получаем порядковый номер файла, если порядковый номер файла равен 001, то создаём на сервере новый каталог (текущий каталог +1)
+                    var directoriesList = aMoscowFtp.GetDirectoriesList();
+                    var currentDirectory = aMoscowFtp.GetCurrentDirectory(directoriesList);
+                    var regex = new Regex(@"a75_001\.rar");
+                    if (regex.IsMatch(fileName))
+                    {
+                        currentDirectory = IncreaseIndex(currentDirectory);
+                        aMoscowFtp.MakeDirectoryOnFtpServer(currentDirectory);
+                        aMoscowFtp.CurrentDirectory = currentDirectory;
+                    }
                     aMoscowFtp.UploadFile(file);
-                    aMoscowFtp.CheckUploadingStatus(file); //todo Предусмотреть возвращаемое значение
+                    aMoscowFtp.CheckUploadingStatus(fileName);//todo Предусмотреть возвращаемое значение, метод не реализован
                 }
             }
             return result;
         }
 
-        
+        private static string IncreaseIndex(string currentDirectory)
+        {
+            var match = Regex.Match(currentDirectory, "[0-9]");
+            var index = Convert.ToByte(match.Value);
+            return $"R{Convert.ToString(++index)}";
+        }
     }
 }

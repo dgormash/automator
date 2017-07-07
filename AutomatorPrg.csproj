@@ -96,9 +96,6 @@
     <Compile Include="Implementations\FtpUploaderCreator.cs" />
     <Compile Include="Implementations\GarbageCollector.cs" />
     <Compile Include="Implementations\GarbageCollectorCreator.cs" />
-    <Compile Include="Implementations\IcFtpAddressSetter.cs" />
-    <Compile Include="Implementations\IcFtpLoginSetter.cs" />
-    <Compile Include="Implementations\IcFtpPasswordSetter.cs" />
     <Compile Include="Implementations\IcFtpServerBuilder.cs" />
     <Compile Include="Implementations\VMoscowFtpServerBuilder.cs" />
     <Compile Include="Interfaces\IFtpFileDistributorCreator.cs" />
@@ -106,7 +103,7 @@
     <Compile Include="Implementations\ListReturner.cs" />
     <Compile Include="Implementations\ErrorFinderCreator.cs" />
     <Compile Include="Implementations\SoftUpdateChecker.cs" />
-    <Compile Include="FtpFileUploadingStatus.cs" />
+    <Compile Include="FtpCommandStatus.cs" />
     <Compile Include="Interfaces\IArchiveFinder.cs" />
     <Compile Include="Interfaces\IArchiveFinderCreator.cs" />
     <Compile Include="Interfaces\IChecker.cs" />
@@ -124,9 +121,6 @@
     <Compile Include="Interfaces\IFtpMakeDirectory.cs" />
     <Compile Include="Interfaces\IFtpServer.cs" />
     <Compile Include="Interfaces\IFtpServerBuilder.cs" />
-    <Compile Include="Interfaces\IFtpSetAddress.cs" />
-    <Compile Include="Interfaces\IFtpSetLogin.cs" />
-    <Compile Include="Interfaces\IFtpSetPassword.cs" />
     <Compile Include="Interfaces\IFtpUpload.cs" />
     <Compile Include="Interfaces\IFtpFileDistrubutor.cs" />
     <Compile Include="Interfaces\IFtpUploaderCreator.cs" />

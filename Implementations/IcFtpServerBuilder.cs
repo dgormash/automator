@@ -10,6 +10,7 @@ namespace AutomatorPrg.Implementations
             _ftp = new FtpServer();
         }
 
+
         public void BuildUploadMethod()
         {
             _ftp.SetUploadMethod(new FtpFileUploader());
