@@ -12,17 +12,18 @@ namespace AutomatorPrg.Implementations
         {
             try
             {
-                var wRequest = (FtpWebRequest)WebRequest.Create(fileName);
+                var wRequest = (FtpWebRequest)WebRequest.Create($@"{ftpPath}\{fileName}");
                 wRequest.Proxy = null;
                 wRequest.UsePassive = true;
                 wRequest.KeepAlive = false;
-                wRequest.Credentials = new NetworkCredential(_login, _password);
+                wRequest.Credentials = new NetworkCredential(login, password);
                 wRequest.Method = WebRequestMethods.Ftp.GetFileSize;
                 using (var wResponse = wRequest.GetResponse())
                 {
                     if (wResponse.ContentLength != 0)
                     {
-                        result = OkResult;
+                        FtpFileInfo.Name = fileName;
+                        FtpFileInfo.Size = wResponse.ContentLength;
                     }
                 }
             }
@@ -30,12 +31,19 @@ namespace AutomatorPrg.Implementations
             {
                 var ftpResponse = (FtpWebResponse)wEx.Response;
                 var errCode = ftpResponse.StatusCode;
-                if (wEx.Status != WebExceptionStatus.ProtocolError) return result;
-                result = errCode == FtpStatusCode.ActionNotTakenFileUnavailable ?
-                    null : string.Format(@"{0}: {1}", errCode, ftpResponse.StatusDescription);
+                if (wEx.Status == WebExceptionStatus.ProtocolError)
+                {
+                    ErrorMessage =
+                        $"Ошибка: {errCode};  Сообщение: {ftpResponse.StatusDescription}";
+                }
+
+                if (errCode != FtpStatusCode.ActionNotTakenFileUnavailable) return FtpCommandStatus.NotOk;
+                ErrorMessage =
+                    $"Ошибка: {errCode}; Файл: {fileName}; Сообщение: {ftpResponse.StatusDescription}";
                 ftpResponse.Close();
+                return FtpCommandStatus.NotOk;
             }
-            return result;
+            return FtpCommandStatus.Ok;
 
         }
     }
