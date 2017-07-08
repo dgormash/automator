@@ -2,6 +2,7 @@
 {
     public class UploadedFileInfo
     {
-        //todo Разработать этот класс для хранения данных о файле, размере и прочем 
+        public string Name { get; set; }
+        public long Size { get; set; }
     }
 }
