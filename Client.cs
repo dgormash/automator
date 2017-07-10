@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using AutomatorPrg.Implementations;
 using AutomatorPrg.Interfaces;
 
@@ -7,68 +6,64 @@ namespace AutomatorPrg
 {
     public class Client
     {
-        private IFtpUpdateCheker ftpUpdateCheker; //если взвращает true, есть обновление, запускаем updater
-        private IUpdater updater;
-        private IListReturner listReturner;
-        //private IChecker _checkerCreator;
-        private IResultChecker resultChecker;
-        private IErrorRemover errorRemover;
-        private IProtocolWriter protocolWriter;
+        private IListReturner _listReturner;
         private IFtpFileDistributor _ftpFileDistributor;
-        private IFtpDownloader ftpDownloader;
-        private IGarbageCollector garbageCollector;
-
-        private ICheckerCreator _checkerCreator;
-        private IErrorFinderCreator _errorFinderCreator;
-        private IArchiveFinderCreator _archiveFinderCreator;
-        private IErrorRemoverCreator _errorRemoverCreator;
-        private IGarbageCollectorCreator _garbageCollectorCreator;
-        private IFileAppenderCreator _fileAppenderCreator;
-        private IFtpFileDistributorCreator _ftpFileDistributorCreator;
+        private readonly ICheckerCreator _checkerCreator;
+        private readonly IErrorFinderCreator _errorFinderCreator;
+        private readonly IArchiveFinderCreator _archiveFinderCreator;
+        private readonly IErrorRemoverCreator _errorRemoverCreator;
+        private readonly IGarbageCollectorCreator _garbageCollectorCreator;
+        private readonly IFileAppenderCreator _fileAppenderCreator;
+        private readonly IFtpFileDistributorCreator _ftpFileDistributorCreator;
         private bool _doIteration;
 
         public string FilePath {private get; set; }
+        //Путь к файлу, в котором содержатся добавочные строки
         public string Additive { private get; set; }
         public string Mask { private get; set; }
-        public string CurrentChecker { private get; set; }
+        //Путь к файлу chkNewArv.exe (чеккер)
+        public string CheckerLocation { private get; set; }
 
+        public Client(ICheckerCreator checkerCreator, 
+            IErrorFinderCreator errorFinderCreator, 
+            IArchiveFinderCreator archiveFinderCreator, 
+            IErrorRemoverCreator errorRemoverCreator,
+            IGarbageCollectorCreator garbageCollectorCreator, 
+            IFileAppenderCreator fileAppenderCreator, 
+            IFtpFileDistributorCreator ftpFileDistributorCreator)
+        {
+            _checkerCreator = checkerCreator;
+            _errorFinderCreator = errorFinderCreator;
+            _archiveFinderCreator = archiveFinderCreator;
+            _errorRemoverCreator = errorRemoverCreator;
+            _garbageCollectorCreator = garbageCollectorCreator;
+            _fileAppenderCreator = fileAppenderCreator;
+            _ftpFileDistributorCreator = ftpFileDistributorCreator;
+        }
         public byte Execute()
         {
             var result = 0;
 
-            #region Инстанцируем класс, возвращающий список файлов
 
-            listReturner = new ListReturner();
-            IEnumerable<string> fileList = null;
-            //var fileList = listReturner.GetFileList(FilePath, Mask);
-            #endregion
-
-            _checkerCreator = new CommonCheckerCreator();
             var checker = _checkerCreator.CreateChecker();
-            checker.CheckerLocation = CurrentChecker;
-            
+            checker.CheckerLocation = CheckerLocation;
 
-            _errorFinderCreator = new ErrorFinderCreator();
             var errorList = _errorFinderCreator.Create();
 
-            _errorRemoverCreator = new ErrorRemoverCreator();
             var remover = _errorRemoverCreator.Create();
-            IEnumerable<string> errors;
 
-            _garbageCollectorCreator = new GarbageCollectorCreator();
             var collector = _garbageCollectorCreator.Create();
 
             //1. Дополнили файл, если есть, чем дополнять
-            _fileAppenderCreator = new FileAppenderCreator();
             var appender = _fileAppenderCreator.Create();
             appender.AppendFile(FilePath, Additive);
 
+            _listReturner = new ListReturner();
             _doIteration = true;
             while (_doIteration)
             {
-                //todo Провести оптимизацию создания переменных
                 //Получаем список файлов
-                fileList = listReturner.GetFileList(FilePath, Mask);
+                var fileList = _listReturner.GetFileList(FilePath, Mask);
 
                 //Для каждого файла из списка запускем чеккер. В результате появятся либо архивы, либо останутся исходные файлы и
                 //появятся новые файлы с расширением .txt
@@ -78,7 +73,7 @@ namespace AutomatorPrg
                 }
 
                 //Получаем список ошибок и для каждого из файлов в списке производим удаление ошибок
-                errors = errorList.FindErrors(FilePath);
+                var errors = errorList.FindErrors(FilePath);
                 var err = errors as string[] ?? errors.ToArray();
                 if (err.Length != 0)
                 {
@@ -98,14 +93,11 @@ namespace AutomatorPrg
             }
 
 
-
-            _archiveFinderCreator = new ArchiveFinderCreator();
             var archList = _archiveFinderCreator.Create();
             var archives = archList.FindArchives(FilePath);
             var arch = archives as string[] ?? archives.ToArray();
             if (arch.Length != 0)
             {
-                _ftpFileDistributorCreator=new FtpFileDistributorCreator() ;
                 _ftpFileDistributor = _ftpFileDistributorCreator.Create();
                 var uploadResult = _ftpFileDistributor.DistributeFiles(arch);
             //todo uploadResult вывести в протокол выполнения и на экран
