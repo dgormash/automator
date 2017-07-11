@@ -3,6 +3,6 @@
     public interface IFtpDownload
     {
         string ErrorMessage { get; set; }
-        void DownloadFile (string file, string ftpPath, string login, string password);
+        FtpCommandStatus DownloadFile (string what, string where, string login, string password);
     }
 }

@@ -6,7 +6,7 @@ namespace AutomatorPrg.Implementations
     {
         public IErrorRemover Create()
         {
-            return new ErrorRemover();
+            return new ErrorRemover(new ErrorRetriever());
         }
     }
 }

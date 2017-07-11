@@ -89,8 +89,10 @@
     <Compile Include="Implementations\FtpDirectoryListRetriever.cs" />
     <Compile Include="Implementations\FtpFileDistributorCreator.cs" />
     <Compile Include="Implementations\FtpFileDownloader.cs" />
+    <Compile Include="FtpFileInfo.cs" />
     <Compile Include="Implementations\FtpFileStatusChecker.cs" />
     <Compile Include="Implementations\FtpFileUploader.cs" />
+    <Compile Include="Implementations\FtpGetFileInfo.cs" />
     <Compile Include="Implementations\FtpServer.cs" />
     <Compile Include="Implementations\FtpFileDistributor.cs" />
     <Compile Include="Implementations\FtpUploaderCreator.cs" />
@@ -102,7 +104,6 @@
     <Compile Include="Interfaces\IFtpGetCurrentDirectory.cs" />
     <Compile Include="Implementations\ListReturner.cs" />
     <Compile Include="Implementations\ErrorFinderCreator.cs" />
-    <Compile Include="Implementations\SoftUpdateChecker.cs" />
     <Compile Include="FtpCommandStatus.cs" />
     <Compile Include="Interfaces\IArchiveFinder.cs" />
     <Compile Include="Interfaces\IArchiveFinderCreator.cs" />
@@ -118,9 +119,11 @@
     <Compile Include="Interfaces\IFtpCheckUploadingStatus.cs" />
     <Compile Include="Interfaces\IFtpDownload.cs" />
     <Compile Include="Interfaces\IFtpGetDirectories.cs" />
+    <Compile Include="Interfaces\IFtpGetFileInfo.cs" />
     <Compile Include="Interfaces\IFtpMakeDirectory.cs" />
     <Compile Include="Interfaces\IFtpServer.cs" />
     <Compile Include="Interfaces\IFtpServerBuilder.cs" />
+    <Compile Include="Interfaces\IFtpSoftUpdater.cs" />
     <Compile Include="Interfaces\IFtpUpload.cs" />
     <Compile Include="Interfaces\IFtpFileDistrubutor.cs" />
     <Compile Include="Interfaces\IFtpUploaderCreator.cs" />
@@ -132,11 +135,14 @@
     <Compile Include="ISoftUpdate.cs" />
     <Compile Include="ISoftUpdateCheck.cs" />
     <Compile Include="LogWriter.cs" />
+    <Compile Include="MiscFiles.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ReportWriter.cs" />
     <Compile Include="SoftUpdate.cs" />
     <Compile Include="SoftUpdateChecker.cs" />
+    <Compile Include="UpdateDirector.cs" />
+    <Compile Include="UpdateFtpServerBuilder.cs" />
     <Compile Include="UploadedFileInfo.cs" />
     <Compile Include="FileDstributionInfo.cs" />
   </ItemGroup>

@@ -11,6 +11,7 @@ namespace AutomatorPrg.Interfaces
         void SetGetDirectoriesMethod(IFtpGetDirectories getDirectoriesMethod);
         void SetMakeDirectoryMethod(IFtpMakeDirectory makeDirectoryMethod);
         void SetGetCurrentDirectoryMethod(IFtpGetCurrentDirectory getCurrentDirectoryMethod);
+        void SetCheckUpdatesMethod(IFtpGetFileInfo getFileInfoMethod);
         void SetLogin(string value);
         void SetPassword(string value);
         void SetAddress(string value);

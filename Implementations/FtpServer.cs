@@ -1,14 +1,11 @@
 ﻿using System.Collections.Generic;
-using System.Globalization;
-using System.Security.Cryptography.X509Certificates;
+using System.IO;
 using AutomatorPrg.Interfaces;
 
 namespace AutomatorPrg.Implementations
 {
     public class FtpServer:IFtpServer
     {
-        //todo Возможно понадобятся методы доступа к полям (операциям)
-        //public string Address { set { _address += value; } }
         private string _login;
         private string _password;
         private string _address;
@@ -25,6 +22,7 @@ namespace AutomatorPrg.Implementations
         private IFtpGetDirectories _directories;
         private IFtpMakeDirectory _directoryMaker;
         private IFtpGetCurrentDirectory _currnetDirectory;
+        private IFtpGetFileInfo _fileInfoGetter;
         public void SetUploadMethod(IFtpUpload uploadMethod)
         {
             _uploader = uploadMethod;    
@@ -40,9 +38,9 @@ namespace AutomatorPrg.Implementations
             _downloader = downloadMethod;
         }
 
-        public void DownloadFile()
+        public void UpdateFile(string file)
         {
-            //todo сделать загрузку файла с ftp
+            _downloader.DownloadFile($@"{_address}\{Path.GetFileName(file)}", file, _login, _password);
         }
 
         public void SetCheckingMethod(IFtpCheckUploadingStatus checkingMethod)
@@ -79,6 +77,17 @@ namespace AutomatorPrg.Implementations
         public void SetGetCurrentDirectoryMethod(IFtpGetCurrentDirectory getCurrentDirectoryMethod)
         {
             _currnetDirectory = getCurrentDirectoryMethod;
+        }
+
+        public void SetCheckUpdatesMethod(IFtpGetFileInfo getFileInfoMethod)
+        {
+            _fileInfoGetter = getFileInfoMethod;
+        }
+
+        public FtpFileInfo CheckFileState(string file)
+        {
+            _fileInfoGetter.GetFileInfo($@"{_address}\{Path.GetFileName(file)}", _login, _password);
+            return _fileInfoGetter.Result;
         }
 
         public string GetCurrentDirectory(List<string> directories)

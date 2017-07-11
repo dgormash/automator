@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using System.IO;
+using System.Linq;
+using System.Reflection;
 using AutomatorPrg.Implementations;
 using AutomatorPrg.Interfaces;
 
@@ -16,6 +18,8 @@ namespace AutomatorPrg
         private readonly IFileAppenderCreator _fileAppenderCreator;
         private readonly IFtpFileDistributorCreator _ftpFileDistributorCreator;
         private bool _doIteration;
+
+        private FtpServer _updateServer;
 
         public string FilePath {private get; set; }
         //Путь к файлу, в котором содержатся добавочные строки
@@ -54,6 +58,21 @@ namespace AutomatorPrg
 
             var collector = _garbageCollectorCreator.Create();
 
+            /*Здесь должен быть update чеккера и справочника подразделений*/
+            var updateDirector = new UpdateDirector(new UpdateFtpServerBuilder());
+            _updateServer = updateDirector.BuildServer();
+
+            var miscFiles = new[]
+            {
+                $@"{Assembly.GetExecutingAssembly().Location}\misc\chknewarv.exe",
+                $@"{Assembly.GetExecutingAssembly().Location}\misc\podr.gz"
+            };
+
+            foreach (var file in from file in miscFiles let checkResult = _updateServer.CheckFileState(file) where checkResult.LastModified > File.GetLastWriteTime(file) select file)
+            {
+                _updateServer.UpdateFile(file);
+            }
+           
             //1. Дополнили файл, если есть, чем дополнять
             var appender = _fileAppenderCreator.Create();
             appender.AppendFile(FilePath, Additive);
