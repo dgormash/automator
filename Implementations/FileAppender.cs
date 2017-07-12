@@ -23,6 +23,7 @@ namespace AutomatorPrg.Implementations
                     }
                 }
             }
+            File.Delete(additiveFile);
         }
     }
 }

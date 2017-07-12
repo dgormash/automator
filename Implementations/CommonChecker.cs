@@ -19,10 +19,11 @@ namespace AutomatorPrg.Implementations
                 StartInfo =
                     {
                         FileName = $@"""{CheckerLocation}""",
-                        Arguments = $@" -o -ne ""{file}"""
+                        //Arguments = $@" -o -ne ""{file}"""
+                        Arguments = $@" -o ""{file}"""
                     }
             };
-            process.StartInfo.UseShellExecute = false;
+            process.StartInfo.UseShellExecute = true;
             process.Start();
             process.WaitForExit();
         }

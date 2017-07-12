@@ -1,7 +1,6 @@
-﻿using AutomatorPrg.Implementations;
-using AutomatorPrg.Interfaces;
+﻿using AutomatorPrg.Interfaces;
 
-namespace AutomatorPrg
+namespace AutomatorPrg.Implementations
 {
     internal class UpdateFtpServerBuilder : IFtpServerBuilder
     {

@@ -95,8 +95,6 @@ namespace AutomatorPrg.Implementations
             return _currnetDirectory.GetCurrentDirectory(directories);
         }
 
-
-
         public void SetLogin(string value)
         {
             _login = value;

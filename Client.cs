@@ -27,6 +27,7 @@ namespace AutomatorPrg
         public string Mask { private get; set; }
         //Путь к файлу chkNewArv.exe (чеккер)
         public string CheckerLocation { private get; set; }
+        
 
         public Client(ICheckerCreator checkerCreator, 
             IErrorFinderCreator errorFinderCreator, 
@@ -58,25 +59,27 @@ namespace AutomatorPrg
 
             var collector = _garbageCollectorCreator.Create();
 
-            /*Здесь должен быть update чеккера и справочника подразделений*/
-            var updateDirector = new UpdateDirector(new UpdateFtpServerBuilder());
-            _updateServer = updateDirector.BuildServer();
+#region Обновление софта
+            //var updateDirector = new UpdateDirector(new UpdateFtpServerBuilder());
+            //_updateServer = updateDirector.BuildServer();
 
-            var miscFiles = new[]
-            {
-                $@"{Assembly.GetExecutingAssembly().Location}\misc\chknewarv.exe",
-                $@"{Assembly.GetExecutingAssembly().Location}\misc\podr.gz"
-            };
+            //var miscFiles = new[]
+            //{
+            //    $@"{Assembly.GetExecutingAssembly().Location}\misc\chknewarv.exe",
+            //    $@"{Assembly.GetExecutingAssembly().Location}\misc\podr.gz"
+            //};
 
-            foreach (var file in from file in miscFiles let checkResult = _updateServer.CheckFileState(file) where checkResult.LastModified > File.GetLastWriteTime(file) select file)
-            {
-                _updateServer.UpdateFile(file);
-            }
-           
-            //1. Дополнили файл, если есть, чем дополнять
+            //foreach (var file in from file in miscFiles let checkResult = _updateServer.CheckFileState(file) where checkResult.LastModified > File.GetLastWriteTime(file) select file)
+            //{
+            //    _updateServer.UpdateFile(file);
+            //}
+#endregion      
+
+            //2. Дополнили файл, если есть, чем дополнять
             var appender = _fileAppenderCreator.Create();
-            appender.AppendFile(FilePath, Additive);
+            
 
+            //3. Обрабатываем файлы
             _listReturner = new ListReturner();
             _doIteration = true;
             while (_doIteration)
@@ -88,10 +91,11 @@ namespace AutomatorPrg
                 //появятся новые файлы с расширением .txt
                 foreach (var file in fileList)
                 {
+                    appender.AppendFile(file, Additive);
                     checker.StartChecking(file);
                 }
 
-                //Получаем список ошибок и для каждого из файлов в списке производим удаление ошибок
+                //Получаем список файлов с ошибками и для каждого из файлов в списке производим удаление ошибок
                 var errors = errorList.FindErrors(FilePath);
                 var err = errors as string[] ?? errors.ToArray();
                 if (err.Length != 0)
@@ -103,11 +107,10 @@ namespace AutomatorPrg
                     _doIteration = false;
                 }
 
-                //todo Организовать заполнения свойства MoveTo
-                collector.MoveTo = ""; //dispose directory
+                collector.MoveTo = $@"{Path.GetFileName(Assembly.GetExecutingAssembly().Location)}\dispose"; 
                 collector.CleanUp(FilePath, "*.txt");
                 collector.CleanUp(FilePath, "*.old");
-                collector.MoveTo = ""; //err directory
+                collector.MoveTo = $@"{Path.GetFileName(Assembly.GetExecutingAssembly().Location)}\err";
                 collector.CleanUp(FilePath, "*.err");
             }
 

@@ -6,7 +6,9 @@ namespace AutomatorPrg.Implementations
     internal class FtpFileStatusChecker : IFtpCheckUploadingStatus
     {
         public string ErrorMessage { get; set; }
-        public UploadedFileInfo FtpFileInfo { get; set; }
+        public string FileName { get; set; }
+        public long FileSize { get; set; }
+
 
         public FtpCommandStatus CheckUploadingStatus(string fileName, string ftpPath, string login, string password)
         {
@@ -22,8 +24,8 @@ namespace AutomatorPrg.Implementations
                 {
                     if (wResponse.ContentLength != 0)
                     {
-                        FtpFileInfo.Name = fileName;
-                        FtpFileInfo.Size = wResponse.ContentLength;
+                        FileName = fileName;
+                        FileSize = wResponse.ContentLength;
                     }
                 }
             }

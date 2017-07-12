@@ -29,31 +29,34 @@ namespace AutomatorPrg.Implementations
                     ic.CheckUploadingStatus(fileName);//todo предусмотреть возвращаемое значение метода
                 }
 
-                if (fileName.StartsWith(@"v"))
-                {
-                    var vMoscowFtpServerBuilder = new VMoscowFtpServerBuilder();
-                    //todo Вынести строительство в отдельный класс, а здесь только получать готовый ftp-сервер
-                    vMoscowFtpServerBuilder.BuildAddress();
-                    vMoscowFtpServerBuilder.BuildLogin();
-                    vMoscowFtpServerBuilder.BuildPassword();
-                    vMoscowFtpServerBuilder.BuildUploadMethod();
-                    vMoscowFtpServerBuilder.BuildCheckingMethod();
-                    vMoscowFtpServerBuilder.BuildGetDirectoriesMethod();
-                    vMoscowFtpServerBuilder.BuildGetCurrentDirectoryMethod();
-                    var vMoscowFtp = vMoscowFtpServerBuilder.GetFtpServer();
-                    var directoriesList = vMoscowFtp.GetDirectoriesList();
-                    var currentDirectory = vMoscowFtp.GetCurrentDirectory(directoriesList);
-                    var regex = new Regex(@"v75_001\.rar");
-                    if (regex.IsMatch(fileName))
-                    {
-                        currentDirectory = IncreaseIndex(currentDirectory);
-                        vMoscowFtp.MakeDirectoryOnFtpServer(currentDirectory);
-                        vMoscowFtp.CurrentDirectory = currentDirectory;
-                    }
-                    vMoscowFtp.UploadFile(file);
-                    vMoscowFtp.CheckUploadingStatus(fileName);//todo Предусмотреть возвращаемое значение, метод не реализован
-                }
-                else if (fileName.StartsWith(@"f"))
+                //if (fileName.StartsWith(@"v"))
+                //{
+                //    var vMoscowFtpServerBuilder = new VMoscowFtpServerBuilder();
+                //    //todo Вынести строительство в отдельный класс, а здесь только получать готовый ftp-сервер
+                //    vMoscowFtpServerBuilder.BuildAddress();
+                //    vMoscowFtpServerBuilder.BuildLogin();
+                //    vMoscowFtpServerBuilder.BuildPassword();
+                //    vMoscowFtpServerBuilder.BuildUploadMethod();
+                //    vMoscowFtpServerBuilder.BuildCheckingMethod();
+                //    vMoscowFtpServerBuilder.BuildGetDirectoriesMethod();
+                //    vMoscowFtpServerBuilder.BuildGetCurrentDirectoryMethod();
+                //    vMoscowFtpServerBuilder.BuildMakeDirectoryMethod();
+                //    var vMoscowFtp = vMoscowFtpServerBuilder.GetFtpServer();
+                //    var directoriesList = vMoscowFtp.GetDirectoriesList();
+                //    var currentDirectory = vMoscowFtp.GetCurrentDirectory(directoriesList);
+                //    var regex = new Regex(@"v75_001\.rar");
+                //    if (regex.IsMatch(fileName))
+                //    {
+                //        currentDirectory = IncreaseIndex(currentDirectory);
+                //        vMoscowFtp.MakeDirectoryOnFtpServer(currentDirectory);
+                //        vMoscowFtp.CurrentDirectory = currentDirectory;
+                //    }
+                //    vMoscowFtp.CurrentDirectory = currentDirectory;
+                //    vMoscowFtp.UploadFile(file);
+                //    vMoscowFtp.CheckUploadingStatus(fileName);//todo Предусмотреть возвращаемое значение, метод не реализован
+                //}
+                //else 
+                if (fileName.StartsWith(@"f"))
                 {
                     var fMoscowFtpServerBuilder = new FMoscowFtpServerBuilder();
                     fMoscowFtpServerBuilder.BuildAddress();
@@ -63,6 +66,7 @@ namespace AutomatorPrg.Implementations
                     fMoscowFtpServerBuilder.BuildCheckingMethod();
                     fMoscowFtpServerBuilder.BuildGetDirectoriesMethod();
                     fMoscowFtpServerBuilder.BuildGetCurrentDirectoryMethod();
+                    fMoscowFtpServerBuilder.BuildMakeDirectoryMethod();
                     var fMoscowFtp = fMoscowFtpServerBuilder.GetFtpServer();
                     var directoriesList = fMoscowFtp.GetDirectoriesList();
                     var currentDirectory = fMoscowFtp.GetCurrentDirectory(directoriesList);
@@ -73,6 +77,7 @@ namespace AutomatorPrg.Implementations
                         fMoscowFtp.MakeDirectoryOnFtpServer(currentDirectory);
                         fMoscowFtp.CurrentDirectory = currentDirectory;
                     }
+                    fMoscowFtp.CurrentDirectory = currentDirectory;
                     fMoscowFtp.UploadFile(file);
                     fMoscowFtp.CheckUploadingStatus(fileName);//todo Предусмотреть возвращаемое значение, метод не реализован
                 }
@@ -86,6 +91,7 @@ namespace AutomatorPrg.Implementations
                     aMoscowFtpServerBuilder.BuildCheckingMethod();
                     aMoscowFtpServerBuilder.BuildGetDirectoriesMethod();
                     aMoscowFtpServerBuilder.BuildGetCurrentDirectoryMethod();
+                    aMoscowFtpServerBuilder.BuildMakeDirectoryMethod();
                     var aMoscowFtp = aMoscowFtpServerBuilder.GetFtpServer();
                     var directoriesList = aMoscowFtp.GetDirectoriesList();
                     var currentDirectory = aMoscowFtp.GetCurrentDirectory(directoriesList);
@@ -96,8 +102,34 @@ namespace AutomatorPrg.Implementations
                         aMoscowFtp.MakeDirectoryOnFtpServer(currentDirectory);
                         aMoscowFtp.CurrentDirectory = currentDirectory;
                     }
+                    aMoscowFtp.CurrentDirectory = currentDirectory;
                     aMoscowFtp.UploadFile(file);
                     aMoscowFtp.CheckUploadingStatus(fileName);//todo Предусмотреть возвращаемое значение, метод не реализован
+                }
+                else if (fileName.StartsWith(@"v"))
+                {
+                    var testFtpServerBuilder = new TestFtpServerBuilder();
+                    testFtpServerBuilder.BuildAddress();
+                    testFtpServerBuilder.BuildLogin();
+                    testFtpServerBuilder.BuildPassword();
+                    testFtpServerBuilder.BuildUploadMethod();
+                    testFtpServerBuilder.BuildCheckingMethod();
+                    testFtpServerBuilder.BuildGetDirectoriesMethod();
+                    testFtpServerBuilder.BuildGetCurrentDirectoryMethod();
+                    testFtpServerBuilder.BuildMakeDirectoryMethod();
+                    var testFtp = testFtpServerBuilder.GetFtpServer();
+                    var directoriesList = testFtp.GetDirectoriesList();
+                    var currentDirectory = testFtp.GetCurrentDirectory(directoriesList);
+                    var regex = new Regex(@"v75_001\.rar");
+                    if (regex.IsMatch(fileName))
+                    {
+                        currentDirectory = IncreaseIndex(currentDirectory);
+                        testFtp.MakeDirectoryOnFtpServer(currentDirectory);
+                        testFtp.CurrentDirectory = currentDirectory;
+                    }
+                    testFtp.CurrentDirectory = currentDirectory;
+                    testFtp.UploadFile(file);
+                    testFtp.CheckUploadingStatus(fileName);//todo Предусмотреть возвращаемое значение, метод не реализован
                 }
             }
             return result;

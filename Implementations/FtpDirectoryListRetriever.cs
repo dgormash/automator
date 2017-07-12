@@ -29,14 +29,15 @@ namespace AutomatorPrg.Implementations
                     using (var responseStream = wResponse.GetResponseStream())
                     {
                         if (responseStream != null)
+                        {
                             using (var dirReader = new StreamReader(responseStream))
                             {
-
                                 while (!dirReader.EndOfStream)
                                 {
                                     result.Add(dirReader.ReadLine());
                                 }
                             }
+                        }
                     }
                 }
             }
@@ -44,8 +45,7 @@ namespace AutomatorPrg.Implementations
             {
                 var ftpResponse = (FtpWebResponse) wEx.Response;
                 var errCode = ftpResponse.StatusCode;
-                if (wEx.Status != WebExceptionStatus.ProtocolError) return result;
-                ErrorMessage =
+               ErrorMessage =
                     $"Ошибка: {errCode}; Сообщение: {ftpResponse.StatusDescription}";
                 return null;
             }
