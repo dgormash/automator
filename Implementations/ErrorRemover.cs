@@ -13,15 +13,15 @@ namespace AutomatorPrg.Implementations
         {
             _errorRetriever = retriever;
         }
-        public void RemoveErrors(IEnumerable<string> files)
+        public void RemoveErrors(IEnumerable<string> files, string searchPath)
         {
-            var i = 0;
+            var i = 1;
             foreach (var file in files)
             {
                 var errors = _errorRetriever.GetAllErrors(file);
-                var curFile = Path.GetFileNameWithoutExtension(file); //имя оригинального файла
+                var curFile = $@"{searchPath}\{Path.GetFileNameWithoutExtension(file)}"; //имя оригинального файла
                 File.Move(curFile, curFile + ".old");
-                using (var reader = new StreamReader(curFile, Encoding.GetEncoding(866)))
+                using (var reader = new StreamReader(curFile + ".old", Encoding.GetEncoding(866)))
                 {
                     using (var newWriter = new StreamWriter(curFile, true, Encoding.GetEncoding(866)))
                     {
@@ -30,9 +30,9 @@ namespace AutomatorPrg.Implementations
                             string line;
                             while ((line = reader.ReadLine()) != null)
                             {
-                                if (errors.ContainsKey(i.ToString()))
+                                if (errors.ContainsKey(i.ToString("D7")))
                                 {
-                                    errWriter.WriteLine("{0};{1}", errors[i.ToString()], line);
+                                    errWriter.WriteLine("{0};{1}", errors[i.ToString("D7")], line);
                                 }
                                 else
                                 {

@@ -57,6 +57,11 @@ namespace AutomatorPrg.Implementations
             _ftp.SetAddress(@"ftp://10.7.97.20/MRC_UR/1175/VOD");
         }
 
+        public void BuildCheckUpdatesMethod()
+        {
+            throw new System.NotImplementedException();
+        }
+
         public FtpServer GetFtpServer()
         {
             return _ftp;

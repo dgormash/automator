@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Net;
 using AutomatorPrg.Interfaces;
 
@@ -7,7 +8,8 @@ namespace AutomatorPrg.Implementations
     public class FtpGetFileInfo:IFtpGetFileInfo
     {
         public string ErrorMessage { get; set; }
-        public FtpFileInfo Result { get; set; }
+        public string Name { get; set; }
+        public DateTime LastModified { get; set; }
         public FtpCommandStatus GetFileInfo(string ftpPath, string login, string password)
         {
             var wRequest = (FtpWebRequest)WebRequest.Create(ftpPath);
@@ -21,10 +23,10 @@ namespace AutomatorPrg.Implementations
             {
                 using (var wResponse = (FtpWebResponse)wRequest.GetResponse())
                 {
-                    if (wResponse.ContentLength != 0)
+                    if (wResponse.ContentLength != -1)
                     {
-                        Result.Name = Path.GetFileName(ftpPath);
-                        Result.LastModified = wResponse.LastModified;
+                        Name = Path.GetFileName(ftpPath);
+                        LastModified = wResponse.LastModified;
                     }
                 }
             }

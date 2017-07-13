@@ -1,11 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text.RegularExpressions;
 using AutomatorPrg.Interfaces;
 
 namespace AutomatorPrg.Implementations
 {
-    class ErrorRetriever:IErrorRetriever
+    internal class ErrorRetriever:IErrorRetriever
     {
         public Dictionary<string, string> GetAllErrors(string file)
         {
@@ -13,22 +14,19 @@ namespace AutomatorPrg.Implementations
             var lines = File.ReadAllLines(file);
             var lineNum = string.Empty;
             var atributes = string.Empty;
-            foreach (var line in lines)
+            foreach (var line in lines.Where(line => line != "" && line != " "))
             {
-                if (!string.IsNullOrEmpty(line))
+                foreach (Match m in Regex.Matches(line, @"(^[0-9]+?):"))
                 {
-                    foreach (Match m in Regex.Matches(line, @"(^[0-9]+?):"))
-                    {
-                        lineNum = m.Groups[1].Value;
-                    }
-
-                    foreach (Match m in Regex.Matches(line, @"/([0-9]{2}(.+?))$"))
-                    {
-                        atributes = m.Groups[1].Value;
-                    }
-
-                    result.Add(lineNum, atributes);
+                    lineNum = m.Groups[1].Value;
                 }
+
+                foreach (Match m in Regex.Matches(line, @"/([0-9]{2}(.+?))$"))
+                {
+                    atributes = m.Groups[1].Value;
+                }
+
+                result.Add(lineNum, atributes);
             }
             return result;
         }

@@ -2,7 +2,7 @@
 
 namespace AutomatorPrg.Interfaces
 {
-    public interface IFtpServerBuilder
+    public interface  IFtpServerBuilder
     {
         void BuildUploadMethod();
         void BuildDownloadMethod();
@@ -13,6 +13,7 @@ namespace AutomatorPrg.Interfaces
         void BuildLogin();
         void BuildPassword();
         void BuildAddress();
+        void BuildCheckUpdatesMethod();
 
         FtpServer GetFtpServer();
     }

@@ -69,6 +69,7 @@
     <Compile Include="Implementations\ArchiveFinderCreator.cs" />
     <Compile Include="Implementations\CommonChecker.cs" />
     <Compile Include="Implementations\CommonCheckerCreator.cs" />
+    <Compile Include="Implementations\ConsoleReporter.cs" />
     <Compile Include="Implementations\ErrorFinder.cs" />
     <Compile Include="Implementations\ErrorRemover.cs" />
     <Compile Include="Implementations\ErrorRemoverCreator.cs" />
@@ -93,6 +94,7 @@
     <Compile Include="Implementations\IcFtpServerBuilder.cs" />
     <Compile Include="Implementations\TestFtpServerBuilder.cs" />
     <Compile Include="Implementations\VMoscowFtpServerBuilder.cs" />
+    <Compile Include="Implementations\XmlReporter.cs" />
     <Compile Include="Interfaces\IFtpFileDistributorCreator.cs" />
     <Compile Include="Interfaces\IFtpGetCurrentDirectory.cs" />
     <Compile Include="Implementations\ListReturner.cs" />
@@ -123,10 +125,12 @@
     <Compile Include="Interfaces\IGarbageCollector.cs" />
     <Compile Include="Interfaces\IGarbageCollectorCreator.cs" />
     <Compile Include="Interfaces\IListReturner.cs" />
+    <Compile Include="Interfaces\IReporter.cs" />
     <Compile Include="Interfaces\ISoftUpdate.cs" />
     <Compile Include="Interfaces\ISoftUpdateCheck.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Reporter.cs" />
     <Compile Include="UpdateDirector.cs" />
     <Compile Include="Implementations\UpdateFtpServerBuilder.cs" />
     <Compile Include="UploadedFileInfo.cs" />

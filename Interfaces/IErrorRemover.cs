@@ -4,6 +4,6 @@ namespace AutomatorPrg.Interfaces
 {
     public interface IErrorRemover
     {
-        void RemoveErrors(IEnumerable<string> files);
+        void RemoveErrors(IEnumerable<string> files, string searchPath);
     }
 }

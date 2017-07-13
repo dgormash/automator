@@ -56,6 +56,11 @@ namespace AutomatorPrg.Implementations
             _ftp.SetAddress(@"ftp://10.196.144.200/ugai/files/roland/ftp/VOD");
         }
 
+        public void BuildCheckUpdatesMethod()
+        {
+            throw new System.NotImplementedException();
+        }
+
         public FtpServer GetFtpServer()
         {
             return _ftp;

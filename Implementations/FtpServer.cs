@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using AutomatorPrg.Interfaces;
 
@@ -84,10 +85,10 @@ namespace AutomatorPrg.Implementations
             _fileInfoGetter = getFileInfoMethod;
         }
 
-        public FtpFileInfo CheckFileState(string file)
+        public DateTime CheckFileState(string file)
         {
             _fileInfoGetter.GetFileInfo($@"{_address}\{Path.GetFileName(file)}", _login, _password);
-            return _fileInfoGetter.Result;
+            return _fileInfoGetter.LastModified;
         }
 
         public string GetCurrentDirectory(List<string> directories)

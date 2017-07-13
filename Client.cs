@@ -1,4 +1,7 @@
-﻿using System.IO;
+﻿using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using AutomatorPrg.Implementations;
@@ -59,21 +62,21 @@ namespace AutomatorPrg
 
             var collector = _garbageCollectorCreator.Create();
 
-#region Обновление софта
-            //var updateDirector = new UpdateDirector(new UpdateFtpServerBuilder());
-            //_updateServer = updateDirector.BuildServer();
+            #region Обновление софта
+            var updateDirector = new UpdateDirector(new UpdateFtpServerBuilder());
+            _updateServer = updateDirector.BuildServer();
 
-            //var miscFiles = new[]
-            //{
-            //    $@"{Assembly.GetExecutingAssembly().Location}\misc\chknewarv.exe",
-            //    $@"{Assembly.GetExecutingAssembly().Location}\misc\podr.gz"
-            //};
+            var miscFiles = new[]
+            {
+                $@"{Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)}\misc\chknewarv.exe",
+                $@"{Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)}\misc\podr.gz"
+            };
 
-            //foreach (var file in from file in miscFiles let checkResult = _updateServer.CheckFileState(file) where checkResult.LastModified > File.GetLastWriteTime(file) select file)
-            //{
-            //    _updateServer.UpdateFile(file);
-            //}
-#endregion      
+            foreach (var file in from file in miscFiles let checkResult = _updateServer.CheckFileState(file) where checkResult > File.GetLastWriteTime(file) select file)
+            {
+                _updateServer.UpdateFile(file);
+            }
+            #endregion
 
             //2. Дополнили файл, если есть, чем дополнять
             var appender = _fileAppenderCreator.Create();
@@ -100,17 +103,17 @@ namespace AutomatorPrg
                 var err = errors as string[] ?? errors.ToArray();
                 if (err.Length != 0)
                 {
-                    remover.RemoveErrors(err);
+                    remover.RemoveErrors(err, FilePath);
                 }
                 else
                 {
                     _doIteration = false;
                 }
 
-                collector.MoveTo = $@"{Path.GetFileName(Assembly.GetExecutingAssembly().Location)}\dispose"; 
+                collector.MoveTo = $@"{Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)}\dispose"; 
                 collector.CleanUp(FilePath, "*.txt");
                 collector.CleanUp(FilePath, "*.old");
-                collector.MoveTo = $@"{Path.GetFileName(Assembly.GetExecutingAssembly().Location)}\err";
+                collector.MoveTo = $@"{Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)}\err";
                 collector.CleanUp(FilePath, "*.err");
             }
 
@@ -122,11 +125,33 @@ namespace AutomatorPrg
             {
                 _ftpFileDistributor = _ftpFileDistributorCreator.Create();
                 var uploadResult = _ftpFileDistributor.DistributeFiles(arch);
+                MoveToArchive(arch);
             //todo uploadResult вывести в протокол выполнения и на экран
             }
             
           
             return (byte) result;
+        }
+
+        private static void MoveToArchive(IEnumerable<string> archs)
+        {
+            foreach (var arch in archs)
+            {
+                if (arch.StartsWith("a", true, CultureInfo.CurrentCulture))
+                {
+                    File.Move(arch, $@"G:\ADM.DBF\out\COMMON\ora\arh\{Path.GetFileName(arch)}");
+                }
+
+                if (arch.StartsWith("f", true, CultureInfo.CurrentCulture))
+                {
+                    File.Move(arch, $@"G:\amt.dbf\out\GIC1\ARCH\{Path.GetFileName(arch)}");
+                }
+
+                if (arch.StartsWith("v", true, CultureInfo.CurrentCulture))
+                {
+                    File.Move(arch, $@"G:\TASKS.EXE\VUD.EXE\FIS_VUD\arh\{DateTime.Now.Year}\{Path.GetFileName(arch)}");
+                } 
+            }
         }
     }
 }
