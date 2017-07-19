@@ -2,6 +2,6 @@
 {
     public interface IFtpFileDistributor
     {
-        FileDstributionInfo DistributeFiles(string[] files);
+        FileDistributionInfo DistributeFiles(string[] files);
     }
 }

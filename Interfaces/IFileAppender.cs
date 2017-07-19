@@ -2,6 +2,6 @@
 {
     public interface IFileAppender
     {
-        void AppendFile(string outgoingFile, string additiveFile);
+        string AppendFile(string outgoingFile, string additiveFile);
     }
 }

@@ -11,6 +11,8 @@ namespace AutomatorPrg
 {
     public class Client
     {
+        private Subject _subject;
+        private ConsoleReporter _consoleReporter;
         private IListReturner _listReturner;
         private IFtpFileDistributor _ftpFileDistributor;
         private readonly ICheckerCreator _checkerCreator;
@@ -47,6 +49,8 @@ namespace AutomatorPrg
             _garbageCollectorCreator = garbageCollectorCreator;
             _fileAppenderCreator = fileAppenderCreator;
             _ftpFileDistributorCreator = ftpFileDistributorCreator;
+            _subject = new Subject();
+            _consoleReporter = new ConsoleReporter(_subject);
         }
         public byte Execute()
         {
@@ -72,8 +76,13 @@ namespace AutomatorPrg
                 $@"{Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)}\misc\podr.gz"
             };
 
-            foreach (var file in from file in miscFiles let checkResult = _updateServer.CheckFileState(file) where checkResult > File.GetLastWriteTime(file) select file)
+            _subject.SetUpMessage(@"Поиск обновлений на ftp://10.7.97.20/software/registr");
+
+            foreach (var file in miscFiles)
             {
+                var checkReslut = _updateServer.CheckFileState(file);
+                if (checkReslut <= File.GetLastWriteTime(file)) continue;
+                _subject.SetUpMessage($@"Найдено обновление файла {Path.GetFileName(file)} от {checkReslut}");
                 _updateServer.UpdateFile(file);
             }
             #endregion
@@ -92,9 +101,16 @@ namespace AutomatorPrg
 
                 //Для каждого файла из списка запускем чеккер. В результате появятся либо архивы, либо останутся исходные файлы и
                 //появятся новые файлы с расширением .txt
+                
                 foreach (var file in fileList)
                 {
-                    appender.AppendFile(file, Additive);
+                    var retMessage = appender.AppendFile(file, Additive);
+                    var fileName = Path.GetFileName(file);
+                    if (retMessage != null)
+                    {
+                       _subject.SetUpMessage($@"К файлу {fileName} {retMessage}");
+                    }
+                    _subject.SetUpMessage($@"Запускаю проверку файла {fileName} программой chkNewArv.exe...");
                     checker.StartChecking(file);
                 }
 
@@ -103,6 +119,11 @@ namespace AutomatorPrg
                 var err = errors as string[] ?? errors.ToArray();
                 if (err.Length != 0)
                 {
+                    _subject.SetUpMessage(@"Обнаружены следующие отчёты об ошибках:");
+                    foreach (var file in err)
+                    {
+                        _subject.SetUpMessage(Path.GetFileName(file));
+                    }
                     remover.RemoveErrors(err, FilePath);
                 }
                 else
@@ -123,6 +144,11 @@ namespace AutomatorPrg
             var arch = archives as string[] ?? archives.ToArray();
             if (arch.Length != 0)
             {
+                _subject.SetUpMessage(@"Обнаружены следующие архивы:");
+                foreach (var file in arch)
+                {
+                    _subject.SetUpMessage(Path.GetFileName(file));
+                }
                 _ftpFileDistributor = _ftpFileDistributorCreator.Create();
                 var uploadResult = _ftpFileDistributor.DistributeFiles(arch);
                 MoveToArchive(arch);
@@ -139,19 +165,21 @@ namespace AutomatorPrg
             {
                 if (arch.StartsWith("a", true, CultureInfo.CurrentCulture))
                 {
-                    File.Move(arch, $@"G:\ADM.DBF\out\COMMON\ora\arh\{Path.GetFileName(arch)}");
+                    File.Move(arch, @"G:\ADM.DBF\out\COMMON\ora\arh");
                 }
 
                 if (arch.StartsWith("f", true, CultureInfo.CurrentCulture))
                 {
-                    File.Move(arch, $@"G:\amt.dbf\out\GIC1\ARCH\{Path.GetFileName(arch)}");
+                    File.Move(arch, @"G:\amt.dbf\out\GIC1\ARCH");
                 }
 
                 if (arch.StartsWith("v", true, CultureInfo.CurrentCulture))
                 {
-                    File.Move(arch, $@"G:\TASKS.EXE\VUD.EXE\FIS_VUD\arh\{DateTime.Now.Year}\{Path.GetFileName(arch)}");
+                    File.Move(arch, $@"G:\TASKS.EXE\VUD.EXE\FIS_VUD\arh\{DateTime.Now.Year}");
                 } 
             }
         }
+
+       
     }
 }

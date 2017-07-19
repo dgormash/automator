@@ -11,7 +11,7 @@ namespace AutomatorPrg
         private static void Main(string[] args)
         {
             Console.ForegroundColor = ConsoleColor.Green;
-            Console.WriteLine(@"Automator, ver. 2.0.0.0, здесь будет дата билда");
+            Console.WriteLine(@"Automator, ver. 2.0.1.2 от 19.07.2017 г. РЕЖИМ ОПЫТНОЙ ЭКСПЛУАТАЦИИ!!!");
             Console.ResetColor();
 
             //todo организовать работу с ключами, вывод общей информации в консоль и в файл протокола
@@ -34,8 +34,8 @@ namespace AutomatorPrg
                     Environment.Exit(0);
                     break;
                 case @"-v":
-                    client.Mask = @"V75*.???";
-                    client.Additive = $@"{ Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)}\add\V*.000";
+                    client.Mask = @"V75A.???";
+                    client.Additive = $@"{ Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)}\add\V75A6FD.000";
                     break;
                 case @"-f":
                     client.Mask = @"F75*.???";

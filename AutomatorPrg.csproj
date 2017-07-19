@@ -92,6 +92,8 @@
     <Compile Include="Implementations\GarbageCollector.cs" />
     <Compile Include="Implementations\GarbageCollectorCreator.cs" />
     <Compile Include="Implementations\IcFtpServerBuilder.cs" />
+    <Compile Include="Implementations\ProgramStoperSubject.cs" />
+    <Compile Include="ProgramStoperObserver.cs" />
     <Compile Include="Implementations\TestFtpServerBuilder.cs" />
     <Compile Include="Implementations\VMoscowFtpServerBuilder.cs" />
     <Compile Include="Implementations\XmlReporter.cs" />
@@ -125,16 +127,19 @@
     <Compile Include="Interfaces\IGarbageCollector.cs" />
     <Compile Include="Interfaces\IGarbageCollectorCreator.cs" />
     <Compile Include="Interfaces\IListReturner.cs" />
+    <Compile Include="Interfaces\IObserver.cs" />
     <Compile Include="Interfaces\IReporter.cs" />
     <Compile Include="Interfaces\ISoftUpdate.cs" />
     <Compile Include="Interfaces\ISoftUpdateCheck.cs" />
+    <Compile Include="Interfaces\ISubject.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Reporter.cs" />
+    <Compile Include="Subject.cs" />
     <Compile Include="UpdateDirector.cs" />
     <Compile Include="Implementations\UpdateFtpServerBuilder.cs" />
     <Compile Include="UploadedFileInfo.cs" />
-    <Compile Include="FileDstributionInfo.cs" />
+    <Compile Include="FileDistributionInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

@@ -12,6 +12,17 @@ namespace AutomatorPrg.Implementations
         private string _address;
         private string _rDirectory;
 
+        private readonly Subject _subject;
+        private readonly ProgramStoperSubject _stoperSubject;
+
+        public FtpServer()
+        {
+            _subject = new Subject();
+            _stoperSubject = new ProgramStoperSubject();
+            var consoleReporter = new ConsoleReporter(_subject);
+            var programStoper = new ProgramStoperObserver(_stoperSubject);
+        }
+
         public string CurrentDirectory
         {
             set { _rDirectory = value; }
@@ -31,7 +42,12 @@ namespace AutomatorPrg.Implementations
 
         public void UploadFile(string file)
         {
-            _uploader.UploadFile(file, $@"{_address}\{_rDirectory}", _login, _password);
+            if (_uploader.UploadFile(file, $@"{_address}\{_rDirectory}", _login, _password) == FtpCommandStatus.NotOk)
+            {
+                _subject.SetUpMessage(_uploader.ErrorMessage);
+                _stoperSubject.StopProgramByEmergency();
+            }
+
         }
 
         public void SetDownloadMethod(IFtpDownload downloadMethod)
@@ -41,7 +57,11 @@ namespace AutomatorPrg.Implementations
 
         public void UpdateFile(string file)
         {
-            _downloader.DownloadFile($@"{_address}\{Path.GetFileName(file)}", file, _login, _password);
+            if (_downloader.DownloadFile($@"{_address}\{Path.GetFileName(file)}", file, _login, _password) == FtpCommandStatus.NotOk)
+            {
+                _subject.SetUpMessage( _downloader.ErrorMessage);
+                _stoperSubject.StopProgramByEmergency();
+            }
         }
 
         public void SetCheckingMethod(IFtpCheckUploadingStatus checkingMethod)
@@ -51,7 +71,11 @@ namespace AutomatorPrg.Implementations
 
         public void CheckUploadingStatus(string file)
         {
-            _checkResult.CheckUploadingStatus(file, $@"{_address}\{_rDirectory}", _login, _password);
+            _subject.SetUpMessage(
+                _checkResult.CheckUploadingStatus(file, $@"{_address}\{_rDirectory}", _login, _password) ==
+                FtpCommandStatus.NotOk
+                    ? _checkResult.ErrorMessage
+                    : $@"Файл {_checkResult.FileName} успешно выгружен; размер: {_checkResult.FileSize};");
         }
 
 
@@ -62,7 +86,12 @@ namespace AutomatorPrg.Implementations
 
         public List<string> GetDirectoriesList()
         {
-            return _directories.GetDirectoryList(_address, _login, _password);
+            var result = _directories.GetDirectoryList(_address, _login, _password);
+            if (result != null) return result;
+            _subject.SetUpMessage($"Я не смог получить список каталогов на {_address}");
+            _subject.SetUpMessage($"Метод GetDirectoryList: {_directories.ErrorMessage}");
+            _stoperSubject.StopProgramByEmergency();
+            return null;
         }
 
         public void SetMakeDirectoryMethod(IFtpMakeDirectory makeDirectoryMethod)
@@ -72,7 +101,12 @@ namespace AutomatorPrg.Implementations
 
         public void MakeDirectoryOnFtpServer(string directoryToMake)
         {
-            _directoryMaker.CreateDirectoryOnServer($@"{_address}\{directoryToMake}", _login,_password );
+            if (_directoryMaker.CreateDirectoryOnServer($@"{_address}\{directoryToMake}", _login, _password) ==
+                FtpCommandStatus.NotOk)
+            {
+                _subject.SetUpMessage(_directoryMaker.ErrorMessage);
+                _stoperSubject.StopProgramByEmergency();
+            }
         }
 
         public void SetGetCurrentDirectoryMethod(IFtpGetCurrentDirectory getCurrentDirectoryMethod)
@@ -87,7 +121,11 @@ namespace AutomatorPrg.Implementations
 
         public DateTime CheckFileState(string file)
         {
-            _fileInfoGetter.GetFileInfo($@"{_address}\{Path.GetFileName(file)}", _login, _password);
+            if (_fileInfoGetter.GetFileInfo($@"{_address}\{Path.GetFileName(file)}", _login, _password) ==
+                FtpCommandStatus.NotOk)
+            {
+                _subject.SetUpMessage(_fileInfoGetter.ErrorMessage);
+            }
             return _fileInfoGetter.LastModified;
         }
 
