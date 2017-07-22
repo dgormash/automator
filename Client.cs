@@ -120,9 +120,10 @@ namespace AutomatorPrg
                 if (err.Length != 0)
                 {
                     _subject.SetUpMessage(@"Обнаружены следующие отчёты об ошибках:");
+                    var i = 0;
                     foreach (var file in err)
                     {
-                        _subject.SetUpMessage(Path.GetFileName(file));
+                        _subject.SetUpMessage($"{++i}) {Path.GetFileName(file)}");
                     }
                     remover.RemoveErrors(err, FilePath);
                 }
@@ -145,9 +146,10 @@ namespace AutomatorPrg
             if (arch.Length != 0)
             {
                 _subject.SetUpMessage(@"Обнаружены следующие архивы:");
+                var i = 0;
                 foreach (var file in arch)
                 {
-                    _subject.SetUpMessage(Path.GetFileName(file));
+                    _subject.SetUpMessage($"{++i}) {Path.GetFileName(file)}");
                 }
                 _ftpFileDistributor = _ftpFileDistributorCreator.Create();
                 var uploadResult = _ftpFileDistributor.DistributeFiles(arch);
@@ -163,19 +165,20 @@ namespace AutomatorPrg
         {
             foreach (var arch in archs)
             {
-                if (arch.StartsWith("a", true, CultureInfo.CurrentCulture))
+                var archInfo = new FileInfo(arch);
+                if (archInfo.Name.StartsWith("a", true, CultureInfo.CurrentCulture))
                 {
-                    File.Move(arch, @"G:\ADM.DBF\out\COMMON\ora\arh");
+                    archInfo.MoveTo($@"G:\ADM.DBF\out\COMMON\ora\arh\{archInfo.Name}");
                 }
 
-                if (arch.StartsWith("f", true, CultureInfo.CurrentCulture))
+                if (archInfo.Name.StartsWith("f", true, CultureInfo.CurrentCulture))
                 {
-                    File.Move(arch, @"G:\amt.dbf\out\GIC1\ARCH");
+                    archInfo.MoveTo($@"G:\amt.dbf\out\GIC1\arh\{archInfo.Name}");
                 }
 
-                if (arch.StartsWith("v", true, CultureInfo.CurrentCulture))
+                if (archInfo.Name.StartsWith("v", true, CultureInfo.CurrentCulture))
                 {
-                    File.Move(arch, $@"G:\TASKS.EXE\VUD.EXE\FIS_VUD\arh\{DateTime.Now.Year}");
+                    archInfo.MoveTo($@"G:\TASKS.EXE\VUD.EXE\FIS_VUD\arh\{DateTime.Now.Year}\{archInfo.Name}");
                 } 
             }
         }

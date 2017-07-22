@@ -24,18 +24,18 @@ namespace AutomatorPrg.Implementations
                 var fileName = Path.GetFileName(file);
                 if (fileName == null) continue;
                 //выгружаем файлы в ИЦ; выгружаем оба типа файлов в один каталог на ftp-сервере
-                if (fileName.StartsWith(@"a") || fileName.StartsWith(@"f"))
-                {
-                    var icFtpServerBuilder = new IcFtpServerBuilder();
-                    icFtpServerBuilder.BuildAddress();
-                    icFtpServerBuilder.BuildLogin();
-                    icFtpServerBuilder.BuildPassword();
-                    icFtpServerBuilder.BuildUploadMethod();
-                    icFtpServerBuilder.BuildCheckingMethod();
-                    var ic = icFtpServerBuilder.GetFtpServer();
-                    ic.UploadFile(file);
-                    ic.CheckUploadingStatus(fileName);//todo предусмотреть возвращаемое значение метода
-                }
+                //if (fileName.StartsWith(@"a") || fileName.StartsWith(@"f"))
+                //{
+                //    var icFtpServerBuilder = new IcFtpServerBuilder();
+                //    icFtpServerBuilder.BuildAddress();
+                //    icFtpServerBuilder.BuildLogin();
+                //    icFtpServerBuilder.BuildPassword();
+                //    icFtpServerBuilder.BuildUploadMethod();
+                //    icFtpServerBuilder.BuildCheckingMethod();
+                //    var ic = icFtpServerBuilder.GetFtpServer();
+                //    ic.UploadFile(file);
+                //    ic.CheckUploadingStatus(fileName);//todo предусмотреть возвращаемое значение метода
+                //}
 
                 if (fileName.StartsWith(@"v"))
                 {
@@ -89,7 +89,7 @@ namespace AutomatorPrg.Implementations
                     fMoscowFtp.UploadFile(file);
                     fMoscowFtp.CheckUploadingStatus(fileName);//todo Предусмотреть возвращаемое значение, метод не реализован
                 }
-                else if(fileName.StartsWith(@"a"))
+                else if (fileName.StartsWith(@"a"))
                 {
                     var aMoscowFtpServerBuilder = new AMoscowFtpServerBuilder();
                     aMoscowFtpServerBuilder.BuildAddress();
@@ -114,7 +114,7 @@ namespace AutomatorPrg.Implementations
                     aMoscowFtp.UploadFile(file);
                     aMoscowFtp.CheckUploadingStatus(fileName);//todo Предусмотреть возвращаемое значение, метод не реализован
                 }
-                //else if (fileName.StartsWith(@"v"))
+                //else if (fileName.StartsWith(@"a"))
                 //{
                 //    var testFtpServerBuilder = new TestFtpServerBuilder();
                 //    testFtpServerBuilder.BuildAddress();
@@ -128,7 +128,7 @@ namespace AutomatorPrg.Implementations
                 //    var testFtp = testFtpServerBuilder.GetFtpServer();
                 //    var directoriesList = testFtp.GetDirectoriesList();
                 //    var currentDirectory = testFtp.GetCurrentDirectory(directoriesList);
-                //    var regex = new Regex(@"v75_001\.rar");
+                //    var regex = new Regex(@"a75_001\.rar");
                 //    if (regex.IsMatch(fileName))
                 //    {
                 //        currentDirectory = IncreaseIndex(currentDirectory);

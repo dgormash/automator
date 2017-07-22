@@ -12,6 +12,7 @@ namespace AutomatorPrg
         public void Update(string message)
         {
             Console.WriteLine(message);
+            Console.ReadKey();
             Environment.Exit(0);
         }
     }

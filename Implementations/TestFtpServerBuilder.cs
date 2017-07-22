@@ -53,7 +53,7 @@ namespace AutomatorPrg.Implementations
 
         public void BuildAddress()
         {
-            _ftp.SetAddress(@"ftp://10.196.144.200/ugai/files/roland/ftp/VOD");
+            _ftp.SetAddress(@"ftp://10.196.144.200/ugai/files/roland/ftp/ADMN");
         }
 
         public void BuildCheckUpdatesMethod()

@@ -22,7 +22,7 @@ namespace AutomatorPrg.Implementations
                         Arguments = $@" -o -ne ""{file}"""
                     }
             };
-            process.StartInfo.UseShellExecute = true;
+            process.StartInfo.UseShellExecute = false;
             process.Start();
             process.WaitForExit();
         }

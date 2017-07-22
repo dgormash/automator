@@ -11,7 +11,7 @@ namespace AutomatorPrg
         private static void Main(string[] args)
         {
             Console.ForegroundColor = ConsoleColor.Green;
-            Console.WriteLine(@"Automator, ver. 2.0.1.2 от 19.07.2017 г. РЕЖИМ ОПЫТНОЙ ЭКСПЛУАТАЦИИ!!!");
+            Console.WriteLine(@"Automator, ver. 2.0.1.4 от 21.07.2017 г. РЕЖИМ ОПЫТНОЙ ЭКСПЛУАТАЦИИ!!!");
             Console.ResetColor();
 
             //todo организовать работу с ключами, вывод общей информации в консоль и в файл протокола
@@ -34,20 +34,20 @@ namespace AutomatorPrg
                     Environment.Exit(0);
                     break;
                 case @"-v":
-                    client.Mask = @"V75A.???";
+                    client.Mask = @"V75A*.???";
                     client.Additive = $@"{ Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)}\add\V75A6FD.000";
                     break;
                 case @"-f":
-                    client.Mask = @"F75*.???";
-                    client.Additive = $@"{ Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)}\add\F*.000";
+                    client.Mask = @"F75A*.???";
+                    client.Additive = $@"{ Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)}\add\F75A6FD.000";
                     break;
                 case @"-a":
-                    client.Mask = @"A75*.???";
-                    client.Additive = $@"{ Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)}\add\A*.000";
+                    client.Mask = @"A75A*.???";
+                    client.Additive = $@"{ Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)}\add\A75A0FD.000";
                     break;
                 case @"-t":
-                    client.Mask = @"V75*.???";
-                    client.Additive = $@"{ Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)}\add\V75A6FD.000";
+                    client.Mask = @"A75A*.???";
+                    client.Additive = $@"{ Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)}\add\A75A0FD.000";
                     break;
             }
                
