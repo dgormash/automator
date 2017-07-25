@@ -11,7 +11,7 @@ namespace AutomatorPrg
         private static void Main(string[] args)
         {
             Console.ForegroundColor = ConsoleColor.Green;
-            Console.WriteLine(@"Automator, ver. 2.0.1.4 от 21.07.2017 г. РЕЖИМ ОПЫТНОЙ ЭКСПЛУАТАЦИИ!!!");
+            Console.WriteLine(@"Automator, ver. 2.0.1.7 от 25.07.2017 г. РЕЖИМ ОПЫТНОЙ ЭКСПЛУАТАЦИИ!!!");
             Console.ResetColor();
 
             //todo организовать работу с ключами, вывод общей информации в консоль и в файл протокола

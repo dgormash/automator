@@ -20,6 +20,7 @@ namespace AutomatorPrg.Implementations
             _subject = new Subject();
             _stoperSubject = new ProgramStoperSubject();
             var consoleReporter = new ConsoleReporter(_subject);
+            var logReporter = new LogReporter(_subject);
             var programStoper = new ProgramStoperObserver(_stoperSubject);
         }
 
@@ -44,7 +45,7 @@ namespace AutomatorPrg.Implementations
         {
             if (_uploader.UploadFile(file, $@"{_address}\{_rDirectory}", _login, _password) == FtpCommandStatus.NotOk)
             {
-                _subject.SetUpMessage(_uploader.ErrorMessage);
+                _subject.SetUpMessage( _uploader.ErrorMessage);
                 _stoperSubject.StopProgramByEmergency();
             }
 
@@ -75,7 +76,7 @@ namespace AutomatorPrg.Implementations
                 _checkResult.CheckUploadingStatus(file, $@"{_address}\{_rDirectory}", _login, _password) ==
                 FtpCommandStatus.NotOk
                     ? _checkResult.ErrorMessage
-                    : $@"Файл {_checkResult.FileName} успешно выгружен; размер: {_checkResult.FileSize};");
+                    : $@"\bФайл {_checkResult.FileName} успешно выгружен на {_address}; размер: {_checkResult.FileSize};");
         }
 
 

@@ -27,7 +27,7 @@ namespace AutomatorPrg.Implementations
         {
             foreach (var stopCase in _stoper)
             {
-                stopCase.Update("В результате работы программы возникла ошибка. Программа будет закрыта");
+                stopCase.Update(@"В результате работы программы возникла ошибка. Программа будет закрыта");
             }
         }
 

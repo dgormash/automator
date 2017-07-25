@@ -11,8 +11,10 @@ namespace AutomatorPrg
         }
         public void Update(string message)
         {
+            Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine(message);
-            Console.ReadKey();
+            Console.ResetColor();
+            //Console.ReadKey();
             Environment.Exit(0);
         }
     }

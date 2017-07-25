@@ -51,6 +51,7 @@ namespace AutomatorPrg
             _ftpFileDistributorCreator = ftpFileDistributorCreator;
             _subject = new Subject();
             _consoleReporter = new ConsoleReporter(_subject);
+            var logReporter = new LogReporter(_subject);
         }
         public byte Execute()
         {
@@ -76,13 +77,13 @@ namespace AutomatorPrg
                 $@"{Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)}\misc\podr.gz"
             };
 
-            _subject.SetUpMessage(@"Поиск обновлений на ftp://10.7.97.20/software/registr");
+            _subject.SetUpMessage(@"\yПоиск обновлений на ftp://10.7.97.20/software/registr");
 
             foreach (var file in miscFiles)
             {
                 var checkReslut = _updateServer.CheckFileState(file);
                 if (checkReslut <= File.GetLastWriteTime(file)) continue;
-                _subject.SetUpMessage($@"Найдено обновление файла {Path.GetFileName(file)} от {checkReslut}");
+                _subject.SetUpMessage($@"\yНайдено обновление файла {Path.GetFileName(file)} от {checkReslut}");
                 _updateServer.UpdateFile(file);
             }
             #endregion
@@ -108,9 +109,9 @@ namespace AutomatorPrg
                     var fileName = Path.GetFileName(file);
                     if (retMessage != null)
                     {
-                       _subject.SetUpMessage($@"К файлу {fileName} {retMessage}");
+                       _subject.SetUpMessage($@"\bК файлу {fileName} {retMessage}");
                     }
-                    _subject.SetUpMessage($@"Запускаю проверку файла {fileName} программой chkNewArv.exe...");
+                    _subject.SetUpMessage($@"\bЗапускаю проверку файла {fileName} программой chkNewArv.exe...");
                     checker.StartChecking(file);
                 }
 
@@ -119,11 +120,11 @@ namespace AutomatorPrg
                 var err = errors as string[] ?? errors.ToArray();
                 if (err.Length != 0)
                 {
-                    _subject.SetUpMessage(@"Обнаружены следующие отчёты об ошибках:");
+                    _subject.SetUpMessage(@"\wОбнаружены следующие отчёты об ошибках:");
                     var i = 0;
                     foreach (var file in err)
                     {
-                        _subject.SetUpMessage($"{++i}) {Path.GetFileName(file)}");
+                        _subject.SetUpMessage($@"\w{++i}) {Path.GetFileName(file)}");
                     }
                     remover.RemoveErrors(err, FilePath);
                 }
@@ -145,11 +146,11 @@ namespace AutomatorPrg
             var arch = archives as string[] ?? archives.ToArray();
             if (arch.Length != 0)
             {
-                _subject.SetUpMessage(@"Обнаружены следующие архивы:");
+                _subject.SetUpMessage(@"\mОбнаружены следующие архивы:");
                 var i = 0;
                 foreach (var file in arch)
                 {
-                    _subject.SetUpMessage($"{++i}) {Path.GetFileName(file)}");
+                    _subject.SetUpMessage($@"\m{++i}) {Path.GetFileName(file)}");
                 }
                 _ftpFileDistributor = _ftpFileDistributorCreator.Create();
                 var uploadResult = _ftpFileDistributor.DistributeFiles(arch);
@@ -173,7 +174,7 @@ namespace AutomatorPrg
 
                 if (archInfo.Name.StartsWith("f", true, CultureInfo.CurrentCulture))
                 {
-                    archInfo.MoveTo($@"G:\amt.dbf\out\GIC1\arh\{archInfo.Name}");
+                    archInfo.MoveTo($@"G:\amt.dbf\out\GIC1\arch\{archInfo.Name}");
                 }
 
                 if (archInfo.Name.StartsWith("v", true, CultureInfo.CurrentCulture))

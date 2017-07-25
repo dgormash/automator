@@ -8,13 +8,12 @@ namespace AutomatorPrg.Implementations
 {
     public class FtpFileDistributor:IFtpFileDistributor
     {
-        UploadedFileInfo _uplFileInfo;
-        string ErrorMessage { get; set; }
-
-        public FtpFileDistributor()
-        {
-            _uplFileInfo = new UploadedFileInfo();
-        }
+        //UploadedFileInfo _uplFileInfo;
+       
+        //public FtpFileDistributor()
+        //{
+        //    _uplFileInfo = new UploadedFileInfo();
+        //}
         public FileDistributionInfo DistributeFiles(string[] files)
         {
             var result = new FileDistributionInfo {Count = files.Count()};
@@ -24,18 +23,18 @@ namespace AutomatorPrg.Implementations
                 var fileName = Path.GetFileName(file);
                 if (fileName == null) continue;
                 //выгружаем файлы в ИЦ; выгружаем оба типа файлов в один каталог на ftp-сервере
-                //if (fileName.StartsWith(@"a") || fileName.StartsWith(@"f"))
-                //{
-                //    var icFtpServerBuilder = new IcFtpServerBuilder();
-                //    icFtpServerBuilder.BuildAddress();
-                //    icFtpServerBuilder.BuildLogin();
-                //    icFtpServerBuilder.BuildPassword();
-                //    icFtpServerBuilder.BuildUploadMethod();
-                //    icFtpServerBuilder.BuildCheckingMethod();
-                //    var ic = icFtpServerBuilder.GetFtpServer();
-                //    ic.UploadFile(file);
-                //    ic.CheckUploadingStatus(fileName);//todo предусмотреть возвращаемое значение метода
-                //}
+                if (fileName.StartsWith(@"a") || fileName.StartsWith(@"f"))
+                {
+                    var icFtpServerBuilder = new IcFtpServerBuilder();
+                    icFtpServerBuilder.BuildAddress();
+                    icFtpServerBuilder.BuildLogin();
+                    icFtpServerBuilder.BuildPassword();
+                    icFtpServerBuilder.BuildUploadMethod();
+                    icFtpServerBuilder.BuildCheckingMethod();
+                    var ic = icFtpServerBuilder.GetFtpServer();
+                    ic.UploadFile(file);
+                    ic.CheckUploadingStatus(fileName);//todo предусмотреть возвращаемое значение метода
+                }
 
                 if (fileName.StartsWith(@"v"))
                 {

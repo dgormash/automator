@@ -92,6 +92,7 @@
     <Compile Include="Implementations\GarbageCollector.cs" />
     <Compile Include="Implementations\GarbageCollectorCreator.cs" />
     <Compile Include="Implementations\IcFtpServerBuilder.cs" />
+    <Compile Include="Implementations\LogReporter.cs" />
     <Compile Include="Implementations\ProgramStoperSubject.cs" />
     <Compile Include="ProgramStoperObserver.cs" />
     <Compile Include="Implementations\TestFtpServerBuilder.cs" />
