@@ -11,13 +11,11 @@ namespace AutomatorPrg.Implementations
         public LogReporter(ISubject subject)
         {
             subject.Register(this);
-            var message = $"{new string('*', 40)}{Environment.NewLine}Старт программы: {DateTime.Now.ToLocalTime()}{Environment.NewLine}{new string('*', 40)}{Environment.NewLine}";
-            Update(message);
         }
         public void Update(string message)
         {
             File.AppendAllText($@"{Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)}\report\{
-                DateTime.Now.ToString("ddMMyyyy")}.rep", $"{message.Remove(0, 2)}{Environment.NewLine}", Encoding.GetEncoding(1251));
+                DateTime.Now.ToString("ddMMyyyy")}.rep", $"{DateTime.Now.ToLocalTime()}: {message.Remove(0, 2)}{Environment.NewLine}", Encoding.GetEncoding(1251));
         }
     }
 }

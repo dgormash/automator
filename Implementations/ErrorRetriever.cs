@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Text.RegularExpressions;
 using AutomatorPrg.Interfaces;
 
@@ -11,7 +12,7 @@ namespace AutomatorPrg.Implementations
         public Dictionary<string, string> GetAllErrors(string file)
         {
             var result = new Dictionary<string, string>();
-            var lines = File.ReadAllLines(file);
+            var lines = File.ReadAllLines(file, Encoding.GetEncoding(866));
             var lineNum = string.Empty;
             var atributes = string.Empty;
             foreach (var line in lines.Where(line => line != "" && line != " "))

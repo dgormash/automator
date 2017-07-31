@@ -11,7 +11,7 @@ namespace AutomatorPrg
         private static void Main(string[] args)
         {
             Console.ForegroundColor = ConsoleColor.Green;
-            Console.WriteLine(@"Automator, ver. 2.0.1.8 от 26.07.2017 г. РЕЖИМ ОПЫТНОЙ ЭКСПЛУАТАЦИИ!!!");
+            Console.WriteLine(@"Automator, ver. 2.0.2.0 от 31.07.2017 г. РЕЖИМ ОПЫТНОЙ ЭКСПЛУАТАЦИИ!!!");
             Console.ResetColor();
 
             var client = new Client(new CommonCheckerCreator(), //todo выбор чеккера по ключам
